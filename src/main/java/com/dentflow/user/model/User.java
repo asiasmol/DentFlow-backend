@@ -1,8 +1,14 @@
 package com.dentflow.user.model;
 
+import com.dentflow.clinic.model.Clinic;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -17,6 +23,10 @@ public class User {
     private String email;
     private UserType userType;
     private String password;
+
+    @ManyToMany
+    @JoinTable
+    private Set<Clinic> allClinics = new HashSet<>();
 
     public User(String firstName, String surName, String email, UserType userType, String password) {
         this.firstName = firstName;
