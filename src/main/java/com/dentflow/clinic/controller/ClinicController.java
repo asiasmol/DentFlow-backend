@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/clinic")
+@RestController
+@RequestMapping("/api/clinic")
 public class ClinicController {
 
     private ClinicService clinicService;
@@ -30,7 +31,7 @@ public class ClinicController {
     @GetMapping("/personnel/all")
     public void getPersonnel(){
     }
-    @GetMapping("/personnel/{id}")
+    @GetMapping("/personnel/{userId}")
     public void getEmployee(){
     }
     @PostMapping("/personnel/add")

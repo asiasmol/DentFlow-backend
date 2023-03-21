@@ -4,8 +4,6 @@ import com.dentflow.clinic.model.Clinic;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.UserType;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
