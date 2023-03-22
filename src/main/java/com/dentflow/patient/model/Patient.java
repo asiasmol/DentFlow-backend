@@ -1,10 +1,17 @@
 package com.dentflow.patient.model;
 
 
+import com.dentflow.clinic.model.Clinic;
+import com.dentflow.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -20,12 +27,11 @@ public class Patient {
     private String lastName;
     @NotBlank
     private String email;
-    private long clinicId;
 
-    public Patient(String firstName, String lastName, String email, long clinicId) {
+    public Patient(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.clinicId = clinicId;
+
     }
 }

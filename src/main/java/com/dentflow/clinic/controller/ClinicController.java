@@ -2,13 +2,15 @@ package com.dentflow.clinic.controller;
 
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.service.ClinicService;
-import org.springframework.data.repository.query.Param;
+import com.dentflow.patient.model.Patient;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/clinic")
+@CrossOrigin
 public class ClinicController {
 
     private ClinicService clinicService;
@@ -21,20 +23,38 @@ public class ClinicController {
     public List<Clinic> getClinic(){
         return clinicService.getAllClinic();
     }
-    @PostMapping("/create")
-    public void createClinic(
-            @RequestParam("name")String name,
-            @RequestParam("password")String password
+
+    @PostMapping("/register")
+    public void registerClinic(
+            @RequestBody Clinic clinic
     ){
-        clinicService.createClinic(name,password);
+        clinicService.registerClinic(clinic);
     }
-    @GetMapping("/personnel/all")
+
+    @GetMapping("/{clinicId}/personnel/all")
     public void getPersonnel(){
     }
+
     @GetMapping("/personnel/{userId}")
     public void getEmployee(){
     }
-    @PostMapping("/personnel/add")
+
+    @PostMapping("/{clinicId}/personnel/{userId}")
     public void addEmployee(){
+
+    }
+
+    @PostMapping("/{clinicId}/patient/{patientId}/add")
+    public void addPatient(
+        @PathVariable long clinicId,
+        @PathVariable long patientId
+    ){
+        clinicService.addPatient(clinicId,patientId);
+    }
+
+    @GetMapping("/{clinicId}/patient/all")
+    public List<Patient> getAllPatientsFromClinic(
+            @PathVariable long clinicId) {
+        return clinicService.getAllPatient(clinicId);
     }
 }

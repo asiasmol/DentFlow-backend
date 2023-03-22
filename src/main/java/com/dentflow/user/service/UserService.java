@@ -26,8 +26,7 @@ public class UserService {
     }
 
     public Set<Clinic> getAllClinics(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.map(User::getAllClinics).orElse(Collections.emptySet());
+        return null;
     }
 
 

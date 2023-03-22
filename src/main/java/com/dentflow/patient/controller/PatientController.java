@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/patients")
+@CrossOrigin
 public class PatientController {
     private final PatientService patientService;
 
@@ -17,21 +18,12 @@ public class PatientController {
     }
 
     @PostMapping("/register_patient")
-    public void registerPatientToClinic(
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("email") String email,
-            @RequestParam("clinicId") long clinicId) {
-        patientService.registerPatient(firstName, lastName, email, clinicId);
+    public void registerPatientToClinic(@RequestBody Patient patient) {
+        patientService.registerPatient(patient);
     }
     @GetMapping("/{patientId}")
     public Patient getPatientFromClinic(
             @PathVariable long patientId){
         return patientService.getPatient(patientId);
-    }
-    @GetMapping("/all/{clinicId}")
-    public List<Patient> getAllPatientsFromClinic(
-            @PathVariable long clinicId) {
-        return patientService.getAllPatientsFromClinic(clinicId);
     }
 }

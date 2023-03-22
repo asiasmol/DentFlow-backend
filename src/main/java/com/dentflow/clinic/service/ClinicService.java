@@ -2,9 +2,10 @@ package com.dentflow.clinic.service;
 
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
+import com.dentflow.patient.model.Patient;
+import com.dentflow.patient.model.PatientRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,13 +14,24 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class ClinicService {
+
     private ClinicRepository clinicRepository;
 
-    public void createClinic(String name,String password){
-        clinicRepository.save(new Clinic(name,password));
+    private PatientRepository patientRepository;
+
+    public void registerClinic(Clinic clinic){
+        clinicRepository.save(clinic);
     }
 
     public List<Clinic> getAllClinic(){
         return clinicRepository.findAll();
     }
+
+    public List<Patient> getAllPatient(long clinicId) {
+        return null;
+    }
+
+    public void addPatient(long clinicId, long patientId) {
+    }
+
 }

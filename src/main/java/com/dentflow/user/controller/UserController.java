@@ -12,6 +12,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin
 public class UserController {
 
     private UserService userService;
@@ -36,10 +37,7 @@ public class UserController {
     }
     @GetMapping("/{id}/all_clinics")
     public ResponseEntity<Set<Clinic>> getAllClinics(@PathVariable Long id){
-        if (!userService.getAllClinics(id).isEmpty()){
-            return ResponseEntity.ok(userService.getAllClinics(id));
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (!userService.getAllClinics(id).isEmpty()) return ResponseEntity.ok(userService.getAllClinics(id));
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

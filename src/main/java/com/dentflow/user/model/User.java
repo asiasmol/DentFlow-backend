@@ -1,6 +1,8 @@
 package com.dentflow.user.model;
 
 import com.dentflow.clinic.model.Clinic;
+import com.dentflow.patient.model.Patient;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,10 +25,6 @@ public class User {
     private String email;
     private UserType userType;
     private String password;
-
-    @ManyToMany
-    @JoinTable
-    private Set<Clinic> allClinics = new HashSet<>();
 
     public User(String firstName, String surName, String email, UserType userType, String password) {
         this.firstName = firstName;

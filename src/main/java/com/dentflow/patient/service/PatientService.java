@@ -1,5 +1,6 @@
 package com.dentflow.patient.service;
 
+import com.dentflow.clinic.model.ClinicRepository;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRepository;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,13 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
 
+
     public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
 
-    public void registerPatient(String firstName, String lastName, String email, long clinicId) {
-        patientRepository.save(new Patient(firstName, lastName, email, clinicId));
+    public void registerPatient(Patient patient) {
+        patientRepository.save(patient);
     }
 
     public Patient getPatient(long patientId) {
@@ -25,6 +27,6 @@ public class PatientService {
     }
 
     public List<Patient> getAllPatientsFromClinic(long clinicId) {
-        return patientRepository.findAllByClinicId(clinicId);
+       return null;
     }
 }
