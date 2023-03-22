@@ -44,14 +44,17 @@ public class ClinicService {
 
     public boolean addEmployee(Long clinicId, Long userId) {
         if (clinicRepository.findById(clinicId).isPresent()) {
-            clinicRepository.findById(clinicId).get().addEmployee(userService.getUser(userId));
+            clinicRepository.findById(clinicId).get().addEmployee(userService.getUser(userId), clinicRepository.findById(clinicId).get());
             return true;
         }
         return false;
     }
 
     public Set<User> getPersonnel(Long clinicId) {
-        return clinicRepository.findById(clinicId).get().getPersonnel();
+        Optional<Clinic> clinic = clinicRepository.findById(clinicId);
+        if (clinic.isPresent()){
+            return clinic.get().getPersonnel();
+        } return null;
     }
     public void deleteClinic(Long clinicId){
         clinicRepository.delete(clinicRepository.findById(clinicId).get());

@@ -21,11 +21,18 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<User> getAll(){
+        return userRepository.findAll();
+    }
+
     public User getUser(Long userId) {
         return userRepository.findById(userId).get();
     }
 
-    public Set<Clinic> getAllClinics(Long userId) {
+    public Optional<Set<Clinic>> getAllClinics(Long userId) {
+        if (userRepository.findById(userId).isPresent()){
+            return Optional.ofNullable(userRepository.findById(userId).get().getClinics());
+        }
         return null;
     }
 

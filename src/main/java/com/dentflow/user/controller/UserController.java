@@ -8,10 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @CrossOrigin
 public class UserController {
 
@@ -22,21 +23,30 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void addUser(@RequestBody User user){
+    public void addUser(@RequestBody User user) {
         userService.addUser(user);
     }
+
+    @GetMapping("")
+    public List<User> getAllUsers(){
+        return userService.getAll();
+    }
+
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long userId){
+    public User getUser(@PathVariable Long userId) {
         return userService.getUser(userId);
     }
+
     @GetMapping("/{userId}/all_clinics")
-    public ResponseEntity<Set<Clinic>> getAllClinics(@PathVariable Long userId){
-        if (!userService.getAllClinics(userId).isEmpty()) return ResponseEntity.ok(userService.getAllClinics(userId));
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public Set<Clinic> getAllClinics(@PathVariable Long userId) {
+
+        return userService.getUser(userId).getClinics();
+
     }
+
     @Transactional
     @DeleteMapping("/{userId}")
-    public void removeUser(@PathVariable Long userId){
+    public void removeUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
     }
 }

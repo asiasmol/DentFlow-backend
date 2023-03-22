@@ -1,15 +1,12 @@
 package com.dentflow.user.model;
 
 import com.dentflow.clinic.model.Clinic;
-import com.dentflow.patient.model.Patient;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,16 +18,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String firstName;
-    private String surName;
+    private String lastName;
     private String email;
     private UserType userType;
     private String password;
 
-    public User(String firstName, String surName, String email, UserType userType, String password) {
+    public User(String firstName, String lastName, String email, UserType userType, String password) {
         this.firstName = firstName;
-        this.surName = surName;
+        this.lastName = lastName;
         this.email = email;
         this.userType = userType;
         this.password = password;
     }
+    @ManyToMany(mappedBy = "personnel")
+    private Set<Clinic> clinics = new HashSet<>();
 }

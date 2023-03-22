@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/clinic")
+@RequestMapping("/api/clinics")
 @CrossOrigin
 public class ClinicController {
 
@@ -23,7 +23,7 @@ public class ClinicController {
         this.clinicService = clinicService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public List<Clinic> getClinic() {
         return clinicService.getAllClinic();
     }
@@ -33,12 +33,14 @@ public class ClinicController {
         return clinicService.getClinicById(clinicId);
     }
 
+    @Transactional
     @PostMapping("/register")
     public void registerClinic(
             @RequestBody Clinic clinic
     ) {
         clinicService.registerClinic(clinic);
     }
+
 
     @GetMapping("/{clinicId}/personnel")
     public Set<User> getPersonnel(@PathVariable("clinicId") Long clinicId) {
