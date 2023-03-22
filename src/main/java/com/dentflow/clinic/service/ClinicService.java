@@ -33,5 +33,10 @@ public class ClinicService {
 
     public void addPatient(long clinicId, long patientId) {
     }
-
+    public Clinic getClinicById(long clinicId) {
+        if(clinicRepository.findById(clinicId).isPresent()){
+            return clinicRepository.findById(clinicId).get();
+        }
+        return null;
+    }
 }
