@@ -39,4 +39,8 @@ public class ClinicService {
         }
         return null;
     }
+
+    public void deleteClinic(Long clinicId){
+        clinicRepository.delete(clinicRepository.findById(clinicId).get());
+    }
 }

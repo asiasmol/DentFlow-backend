@@ -62,4 +62,10 @@ public class ClinicController {
             @PathVariable long clinicId) {
         return clinicService.getAllPatient(clinicId);
     }
+
+    @DeleteMapping("/{clinicId}")
+    public void deleteClinic(@PathVariable Long clinicId){
+        clinicService.deleteClinic(clinicId);
+    }
+
 }
