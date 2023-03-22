@@ -6,6 +6,7 @@ import com.dentflow.user.model.UserType;
 import com.dentflow.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -31,13 +32,18 @@ public class UserController {
     ){
         userService.addUser(firstName,lastName,email,type,password);
     }
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id){
-        return userService.getUser(id);
+    @GetMapping("/{userId}")
+    public User getUser(@PathVariable Long userId){
+        return userService.getUser(userId);
     }
-    @GetMapping("/{id}/all_clinics")
-    public ResponseEntity<Set<Clinic>> getAllClinics(@PathVariable Long id){
-        if (!userService.getAllClinics(id).isEmpty()) return ResponseEntity.ok(userService.getAllClinics(id));
+    @GetMapping("/{userId}/all_clinics")
+    public ResponseEntity<Set<Clinic>> getAllClinics(@PathVariable Long userId){
+        if (!userService.getAllClinics(userId).isEmpty()) return ResponseEntity.ok(userService.getAllClinics(userId));
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @Transactional
+    @DeleteMapping("/{userId}")
+    public void removeUser(@PathVariable Long userId){
+        userService.deleteUser(userId);
     }
 }

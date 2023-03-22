@@ -21,12 +21,16 @@ public class UserService {
         userRepository.save(new User(firstName, lastName, email, type, password));
     }
 
-    public User getUser(Long id) {
-        return userRepository.findById(id).get();
+    public User getUser(Long userId) {
+        return userRepository.findById(userId).get();
     }
 
-    public Set<Clinic> getAllClinics(Long id) {
+    public Set<Clinic> getAllClinics(Long userId) {
         return null;
+    }
+
+    public void deleteUser(Long userId){
+        userRepository.delete(userRepository.findById(userId).get());
     }
 
 
