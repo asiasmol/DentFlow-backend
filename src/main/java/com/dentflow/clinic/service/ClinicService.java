@@ -3,12 +3,15 @@ package com.dentflow.clinic.service;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
 import com.dentflow.patient.model.Patient;
-import com.dentflow.patient.model.PatientRepository;
+import com.dentflow.user.model.User;
+import com.dentflow.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Data
@@ -16,14 +19,13 @@ import java.util.List;
 public class ClinicService {
 
     private ClinicRepository clinicRepository;
+    private UserService userService;
 
-    private PatientRepository patientRepository;
-
-    public void registerClinic(Clinic clinic){
+    public void registerClinic(Clinic clinic) {
         clinicRepository.save(clinic);
     }
 
-    public List<Clinic> getAllClinic(){
+    public List<Clinic> getAllClinic() {
         return clinicRepository.findAll();
     }
 
@@ -40,6 +42,17 @@ public class ClinicService {
         return null;
     }
 
+    public boolean addEmployee(Long clinicId, Long userId) {
+        if (clinicRepository.findById(clinicId).isPresent()) {
+            clinicRepository.findById(clinicId).get().addEmployee(userService.getUser(userId));
+            return true;
+        }
+        return false;
+    }
+
+    public Set<User> getPersonnel(Long clinicId) {
+        return clinicRepository.findById(clinicId).get().getPersonnel();
+    }
     public void deleteClinic(Long clinicId){
         clinicRepository.delete(clinicRepository.findById(clinicId).get());
     }

@@ -4,9 +4,13 @@ import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.patient.model.Patient;
 
+import com.dentflow.user.model.User;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/clinic")
@@ -20,7 +24,7 @@ public class ClinicController {
     }
 
     @GetMapping("/all")
-    public List<Clinic> getClinic(){
+    public List<Clinic> getClinic() {
         return clinicService.getAllClinic();
     }
 
@@ -32,29 +36,34 @@ public class ClinicController {
     @PostMapping("/register")
     public void registerClinic(
             @RequestBody Clinic clinic
-    ){
+    ) {
         clinicService.registerClinic(clinic);
     }
 
-    @GetMapping("/{clinicId}/personnel/all")
-    public void getPersonnel(){
+    @GetMapping("/{clinicId}/personnel")
+    public Set<User> getPersonnel(@PathVariable("clinicId") Long clinicId) {
+        return clinicService.getPersonnel(clinicId);
     }
 
     @GetMapping("/personnel/{userId}")
-    public void getEmployee(){
+    public void getEmployee() {
     }
 
-    @PostMapping("/{clinicId}/personnel/{userId}")
-    public void addEmployee(){
-
+    @Transactional
+    @PatchMapping("/{clinicId}/personnel/{userId}")
+    public ResponseEntity<?> addEmployee(@PathVariable("clinicId") Long clinicId, @PathVariable("userId") Long userId) {
+        if (clinicService.addEmployee(clinicId, userId)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/{clinicId}/patient/{patientId}/add")
     public void addPatient(
-        @PathVariable long clinicId,
-        @PathVariable long patientId
-    ){
-        clinicService.addPatient(clinicId,patientId);
+            @PathVariable long clinicId,
+            @PathVariable long patientId
+    ) {
+        clinicService.addPatient(clinicId, patientId);
     }
 
     @GetMapping("/{clinicId}/patient/all")

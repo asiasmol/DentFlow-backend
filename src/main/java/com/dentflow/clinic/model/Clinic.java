@@ -25,4 +25,12 @@ public class Clinic {
         this.name = name;
         this.password = password;
     }
+
+    @ManyToMany
+    @JoinTable
+    private Set<User> personnel;
+
+    public void addEmployee(User user){
+        personnel.add(user);
+    }
 }

@@ -2,7 +2,6 @@ package com.dentflow.user.controller;
 
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.user.model.User;
-import com.dentflow.user.model.UserType;
 import com.dentflow.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +22,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void addUser(
-            @RequestParam("firstName")String firstName,
-            @RequestParam("lastName")String lastName,
-            @RequestParam("email")String email,
-            @RequestParam("type") UserType type,
-            @RequestParam("password")String password
-    ){
-        userService.addUser(firstName,lastName,email,type,password);
+    public void addUser(@RequestBody User user){
+        userService.addUser(user);
     }
     @GetMapping("/{userId}")
     public User getUser(@PathVariable Long userId){

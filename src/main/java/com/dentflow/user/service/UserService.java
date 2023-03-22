@@ -17,8 +17,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void addUser(String firstName, String lastName, String email, UserType type, String password) {
-        userRepository.save(new User(firstName, lastName, email, type, password));
+    public void addUser(User user) {
+        userRepository.save(user);
     }
 
     public User getUser(Long userId) {
