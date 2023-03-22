@@ -24,6 +24,11 @@ public class ClinicController {
         return clinicService.getAllClinic();
     }
 
+    @GetMapping("/{clinicId}")
+    public Clinic getClinicById(@PathVariable long clinicId) {
+        return clinicService.getClinicById(clinicId);
+    }
+
     @PostMapping("/register")
     public void registerClinic(
             @RequestBody Clinic clinic
