@@ -40,4 +40,12 @@ public class UserController {
     public Set<Clinic> getAllClinics(@PathVariable Long userId) {
         return userService.getUser(userId).getClinics();
     }
+
+    @Transactional
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUserAccount(@PathVariable Long userId){
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

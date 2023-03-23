@@ -1,8 +1,6 @@
 package com.dentflow.user.service;
 
-import com.dentflow.clinic.controller.ClinicController;
 import com.dentflow.clinic.model.Clinic;
-import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
@@ -35,11 +33,15 @@ public class UserService {
     }
 
     public Optional<Set<Clinic>> getAllClinics(Long userId) {
-        if (userRepository.findById(userId).isPresent()){
+        if (userRepository.findById(userId).isPresent()) {
             return Optional.ofNullable(userRepository.findById(userId).get().getClinics());
         }
         return null;
     }
 
-
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId).get();
+        user.clearClinics();
+        userRepository.delete(user);
+    }
 }

@@ -36,4 +36,11 @@ public class User {
     @ManyToMany(mappedBy = "personnel")
     private Set<Clinic> clinics;
 
+    public void clearClinics(){
+        for (Clinic clinic : clinics) {
+            clinic.removeEmployee(this);
+        }
+        this.clinics.clear();
+    }
+
 }
