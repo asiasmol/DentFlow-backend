@@ -29,7 +29,7 @@ public class Clinic {
         this.password = password;
     }
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "clinic_personnel",
             joinColumns = @JoinColumn(name = "clinic_id"),
@@ -38,7 +38,12 @@ public class Clinic {
     private Set<User> personnel;
 
 
-    public void addEmployee(User user, Clinic clinic){
+    public void addEmployee(User user){
         personnel.add(user);
     }
+    public void removeEmployee(User user){
+        personnel.remove(user);
+        user.getClinics().remove(this);
+    }
+
 }

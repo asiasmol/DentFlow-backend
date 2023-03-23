@@ -74,9 +74,18 @@ public class ClinicController {
         return clinicService.getAllPatient(clinicId);
     }
 
+    @Transactional
     @DeleteMapping("/{clinicId}")
     public void deleteClinic(@PathVariable Long clinicId){
         clinicService.deleteClinic(clinicId);
+    }
+
+    @Transactional
+    @DeleteMapping("/{clinicId}/personnel/{userId}")
+    public void removeUser(
+            @PathVariable("clinicId") Long clinicId,
+            @PathVariable("userId") Long userId){
+        clinicService.removeEmployee(userId, clinicId);
     }
 
 }

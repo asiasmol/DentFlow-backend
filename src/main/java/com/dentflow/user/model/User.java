@@ -35,4 +35,5 @@ public class User {
     @JsonIgnore
     @ManyToMany(mappedBy = "personnel")
     private Set<Clinic> clinics;
+
 }
