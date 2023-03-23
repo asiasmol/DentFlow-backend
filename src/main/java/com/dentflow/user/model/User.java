@@ -1,18 +1,20 @@
 package com.dentflow.user.model;
 
 import com.dentflow.clinic.model.Clinic;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@Entity(name = "users")
 @NoArgsConstructor
-@Data
-@Table(name = "users")
+@AllArgsConstructor
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,7 @@ public class User {
         this.userType = userType;
         this.password = password;
     }
+    @JsonIgnore
     @ManyToMany(mappedBy = "personnel")
-    private Set<Clinic> clinics = new HashSet<>();
+    private Set<Clinic> clinics;
 }

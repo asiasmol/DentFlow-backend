@@ -3,10 +3,11 @@ package com.dentflow.user.service;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
-import com.dentflow.user.model.UserType;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {

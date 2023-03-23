@@ -1,17 +1,20 @@
 package com.dentflow.clinic.model;
 
 import com.dentflow.user.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.repository.cdi.Eager;
+import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "clinics")
 @NoArgsConstructor
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
 public class Clinic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +28,14 @@ public class Clinic {
         this.name = name;
         this.password = password;
     }
-
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "clinic_personnel",
             joinColumns = @JoinColumn(name = "clinic_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> personnel = new HashSet<>();
+    private Set<User> personnel;
 
 
     public void addEmployee(User user, Clinic clinic){

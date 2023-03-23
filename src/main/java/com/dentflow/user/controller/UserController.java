@@ -3,8 +3,6 @@ package com.dentflow.user.controller;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +37,7 @@ public class UserController {
 
     @GetMapping("/{userId}/all_clinics")
     public Set<Clinic> getAllClinics(@PathVariable Long userId) {
-
         return userService.getUser(userId).getClinics();
-
     }
 
     @Transactional
