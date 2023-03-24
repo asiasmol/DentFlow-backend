@@ -12,9 +12,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        http.cors().and().csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/**","/api/*/**").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form
                 .loginPage("/login")
