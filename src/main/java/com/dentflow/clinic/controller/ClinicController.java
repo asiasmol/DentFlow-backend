@@ -3,7 +3,6 @@ package com.dentflow.clinic.controller;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.patient.model.Patient;
-
 import com.dentflow.user.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,7 @@ public class ClinicController {
         this.clinicService = clinicService;
     }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public List<Clinic> getClinic() {
         return clinicService.getAllClinic();
     }

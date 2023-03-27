@@ -14,19 +14,14 @@ import java.util.Set;
 @RequestMapping("/api/users")
 @CrossOrigin
 public class UserController {
-
     private UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public void addUser(@RequestBody User user) {
-        userService.addUser(user);
-    }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.getAll();
     }

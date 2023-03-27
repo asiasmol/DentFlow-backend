@@ -1,14 +1,12 @@
 package com.dentflow.patient.model;
 
 
-import com.dentflow.clinic.model.Clinic;
-import com.dentflow.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
