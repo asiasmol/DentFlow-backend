@@ -30,8 +30,6 @@ public class User implements UserDetails {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private UserType userType;
-    @Enumerated(EnumType.STRING)
     private Role role;
     @JsonIgnore
     @ManyToMany(mappedBy = "personnel")

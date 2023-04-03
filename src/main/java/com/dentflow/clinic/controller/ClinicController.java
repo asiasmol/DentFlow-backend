@@ -13,7 +13,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/clinics")
-@CrossOrigin
 public class ClinicController {
 
     private ClinicService clinicService;
