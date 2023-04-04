@@ -5,6 +5,7 @@ import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.user.model.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,9 @@ public class ClinicController {
     }
 
     @GetMapping("/all")
-    public List<Clinic> getClinic() {
-        return clinicService.getAllClinic();
+    public List<Clinic> getClinic(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return (List<Clinic>) user.getClinics();
     }
 
     @GetMapping("/{clinicId}")

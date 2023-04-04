@@ -7,6 +7,7 @@ import com.dentflow.user.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,8 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .email(request.getEmail())
                 .build();
+    }
+    public AuthenticationResponses getUser(Authentication authentication) {
+       return null;
     }
 }

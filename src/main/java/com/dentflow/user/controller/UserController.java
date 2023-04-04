@@ -1,9 +1,12 @@
 package com.dentflow.user.controller;
 
+import com.dentflow.auth.AuthenticationResponses;
 import com.dentflow.clinic.model.Clinic;
+import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +43,11 @@ public class UserController {
     public ResponseEntity<?> deleteUserAccount(@PathVariable Long userId){
         userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/getUser")
+    public ResponseEntity<GetUserResponse> getCurrentUser(Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(new GetUserResponse(user.getEmail()));
     }
 
 }
