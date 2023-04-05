@@ -3,6 +3,7 @@ package com.dentflow.user.controller;
 import com.dentflow.auth.AuthenticationResponses;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.user.model.GetUserResponse;
+import com.dentflow.user.model.ProfileUserResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,13 @@ public class UserController {
         return userService.getUser(userId);
     }
 
+    @GetMapping("/profile")
+    public ProfileUserResponse getUserProfile(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return new ProfileUserResponse(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword().length());
+
+    }
+
     @GetMapping("/{userId}/all_clinics")
     public Set<Clinic> getAllClinics(@PathVariable Long userId) {
         return userService.getUser(userId).getClinics();
@@ -49,5 +57,7 @@ public class UserController {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(new GetUserResponse(user.getEmail()));
     }
+
+
 
 }
