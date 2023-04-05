@@ -1,5 +1,6 @@
 package com.dentflow.auth;
 
+import com.dentflow.config.JwtResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

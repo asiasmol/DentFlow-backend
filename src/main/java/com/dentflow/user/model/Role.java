@@ -1,6 +1,10 @@
 package com.dentflow.user.model;
 
 public enum Role {
-    User,
-    Admin
+    USER(),
+    DOCTOR(),
+    ASSISTANT(),
+    OWNER(),
+    RECEPTIONIST();
+//    private final String permision;
 }

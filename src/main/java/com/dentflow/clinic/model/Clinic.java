@@ -21,12 +21,12 @@ public class Clinic {
     private Long id;
 
     private String name;
+    @ManyToOne
+    private User owner;
 
-    private String password;
-
-    public Clinic(String name, String password) {
+    public Clinic(String name,User user) {
         this.name = name;
-        this.password = password;
+        this.owner = user;
     }
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})

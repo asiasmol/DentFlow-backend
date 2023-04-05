@@ -21,11 +21,11 @@ public class ClinicService {
     private ClinicRepository clinicRepository;
     private UserService userService;
 
-    public void registerClinic(Clinic clinic) {
-        clinicRepository.save(clinic);
+    public void registerClinic(Clinic clinic,User user) {
+        clinicRepository.save(clinic).setOwner(user);
     }
 
-    public Optional<Set<Clinic>> getAllUserClinic(String email) {
+    public Set<Clinic> getAllUserClinic(String email) {
         return userService.getAllClinics(email);
     }
 

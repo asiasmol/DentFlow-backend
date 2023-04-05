@@ -24,7 +24,7 @@ public class ClinicController {
     }
 
     @GetMapping("/all")
-    public Optional<Set<Clinic>> getClinicByUser(Authentication authentication) {
+    public Set<Clinic> getClinicByUser(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return clinicService.getAllUserClinic(user.getEmail());
     }
@@ -35,11 +35,14 @@ public class ClinicController {
     }
 
     @Transactional
-    @PostMapping("/register")
+    @PostMapping("")
     public void registerClinic(
-            @RequestBody Clinic clinic
+            @RequestBody Clinic clinic,
+            Authentication authentication
     ) {
-        clinicService.registerClinic(clinic);
+        User user = (User) authentication.getPrincipal();
+        clinicService.registerClinic(clinic,user);
+
     }
 
 

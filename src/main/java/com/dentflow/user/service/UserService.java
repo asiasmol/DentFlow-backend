@@ -32,11 +32,9 @@ public class UserService {
         return userRepository.findById(userId).get();
     }
 
-    public Optional<Set<Clinic>> getAllClinics(String email) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            return Optional.ofNullable(userRepository.findByEmail(email).get().getClinics());
-        }
-        return null;
+    public Set<Clinic> getAllClinics(String email) {
+        return userRepository.findByEmail(email).get().getClinics();
+
     }
 
     public void deleteUser(Long userId) {
