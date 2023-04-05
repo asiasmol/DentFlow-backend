@@ -22,6 +22,12 @@ public class Clinic {
 
     private String name;
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JoinTable(
+            name = "myClinic",
+            joinColumns = @JoinColumn(name = "clinic_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private User owner;
 
     public Clinic(String name,User user) {
@@ -43,7 +49,7 @@ public class Clinic {
     }
     public void removeEmployee(User user){
         personnel.remove(user);
-        user.getClinics().remove(this);
+//        user.getClinics().remove(this);
     }
 
 }

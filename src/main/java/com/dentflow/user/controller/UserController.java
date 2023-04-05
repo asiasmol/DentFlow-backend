@@ -24,16 +24,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userService.getAll();
-    }
+//    @GetMapping("")
+//    public List<User> getAllUsers() {
+//        return userService.getAll();
+//    }
 
-    @GetMapping("/{userId}")
-    public User getUser(@PathVariable Long userId) {
-        return userService.getUser(userId);
-    }
+//    @GetMapping("/{userId}")
+//    public User getUser(@PathVariable Long userId) {
+//        return userService.getUser(userId);
+//    }
 
+//    @GetMapping("/{userId}/all_clinics")
+//    public Set<Clinic> getAllClinics(@PathVariable Long userId) {
+//        return userService.getUser(userId).getClinics();
+//    }
     @GetMapping("/profile")
     public ProfileUserResponse getUserProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -46,12 +50,12 @@ public class UserController {
         return userService.getUser(userId).getClinics();
     }
 
-    @Transactional
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUserAccount(@PathVariable Long userId){
-        userService.deleteUser(userId);
-        return ResponseEntity.noContent().build();
-    }
+//    @Transactional
+//    @DeleteMapping("/{userId}")
+//    public ResponseEntity<?> deleteUserAccount(@PathVariable Long userId){
+//        userService.deleteUser(userId);
+//        return ResponseEntity.noContent().build();
+//    }
     @GetMapping("/getUser")
     public ResponseEntity<GetUserResponse> getCurrentUser(Authentication authentication){
         User user = (User) authentication.getPrincipal();

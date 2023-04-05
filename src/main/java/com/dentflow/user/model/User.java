@@ -34,13 +34,17 @@ public class User implements UserDetails {
     private Set<Role> roles;
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,mappedBy = "personnel")
-    private Set<Clinic> clinics;
+    private Set<Clinic> clinicsWhereWork;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
+    private Set<Clinic> MyClinic;
 
     public void clearClinics(){
-        for (Clinic clinic : clinics) {
+        for (Clinic clinic : clinicsWhereWork) {
             clinic.removeEmployee(this);
         }
-        this.clinics.clear();
+        this.clinicsWhereWork.clear();
     }
 
 
