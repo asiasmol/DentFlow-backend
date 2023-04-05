@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -23,9 +24,9 @@ public class ClinicController {
     }
 
     @GetMapping("/all")
-    public List<Clinic> getClinic(Authentication authentication) {
+    public Optional<Set<Clinic>> getClinicByUser(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return (List<Clinic>) user.getClinics();
+        return clinicService.getAllUserClinic(user.getEmail());
     }
 
     @GetMapping("/{clinicId}")

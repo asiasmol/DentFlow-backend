@@ -18,7 +18,7 @@ import java.util.Set;
 public class Clinic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clinicId;
+    private Long id;
 
     private String name;
 

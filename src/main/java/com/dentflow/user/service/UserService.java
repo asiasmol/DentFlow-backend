@@ -32,9 +32,9 @@ public class UserService {
         return userRepository.findById(userId).get();
     }
 
-    public Optional<Set<Clinic>> getAllClinics(Long userId) {
-        if (userRepository.findById(userId).isPresent()) {
-            return Optional.ofNullable(userRepository.findById(userId).get().getClinics());
+    public Optional<Set<Clinic>> getAllClinics(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            return Optional.ofNullable(userRepository.findByEmail(email).get().getClinics());
         }
         return null;
     }

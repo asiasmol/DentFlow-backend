@@ -25,8 +25,8 @@ public class ClinicService {
         clinicRepository.save(clinic);
     }
 
-    public List<Clinic> getAllClinic() {
-        return clinicRepository.findAll();
+    public Optional<Set<Clinic>> getAllUserClinic(String email) {
+        return userService.getAllClinics(email);
     }
 
     public List<Patient> getAllPatient(long clinicId) {
