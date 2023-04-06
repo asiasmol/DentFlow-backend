@@ -3,18 +3,15 @@ package com.dentflow.clinic.model;
 import com.dentflow.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity(name = "clinics")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Builder
+@Data
 public class Clinic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +21,6 @@ public class Clinic {
     @OneToOne(mappedBy = "myClinic")
     private User owner;
 
-    public Clinic(String name,User user) {
-        this.name = name;
-        this.owner = user;
-    }
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(

@@ -2,9 +2,11 @@ package com.dentflow.clinic.service;
 
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
+import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
+import com.dentflow.user.model.UserRequest;
 import com.dentflow.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +26,8 @@ public class ClinicService {
     private ClinicRepository clinicRepository;
     private UserService userService;
 
-    public void registerClinic(String name,User user) {
-        Clinic clinic = new Clinic(name, user);
+    public void registerClinic(ClinicRequest clinicRequest, User user) {
+        Clinic clinic = ClinicRequest.toEntity(clinicRequest,user);
         clinicRepository.save(clinic);
         user.setMyClinic(clinic);
         userRepository.save(user);
@@ -48,13 +50,10 @@ public class ClinicService {
 //        return null;
 //    }
 
-    public void addEmployee(String myEmail, String email) {
-        // TODO
-       Clinic clinic = userService.getMyClinic(myEmail);
-       clinic.addEmployee(userService.getUser(email));
-       userRepository.findByEmail(email).get().addClinic(clinic);
-       userRepository.save(userRepository.findByEmail(email).get());
-       clinicRepository.save(clinic);
+    public void addEmployee(String myEmail, UserRequest userRequest) {
+        User user = userService.getUser(myEmail);
+        String workerEmail = UserRequest.toEntity(userRequest).getEmail();
+        user.getMyClinic().addEmployee(userService.getUser(workerEmail));
     }
 
 

@@ -1,9 +1,11 @@
 package com.dentflow.clinic.controller;
 
 import com.dentflow.clinic.model.Clinic;
+import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
+import com.dentflow.user.model.UserRequest;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.data.repository.query.Param;
@@ -40,14 +42,14 @@ public class ClinicController {
 //    public Clinic getClinicById(@PathVariable long clinicId) {
 //        return clinicService.getClinicById(clinicId);
 //    }
-    @Transactional
+
     @PostMapping
     public void registerClinic(
-            @RequestParam String name,
+            @RequestBody  ClinicRequest clinicRequest,
             Authentication authentication
     ) {
         User user = (User) authentication.getPrincipal();
-        clinicService.registerClinic(name ,user);
+        clinicService.registerClinic(clinicRequest,user);
     }
 
 //    @GetMapping("/{clinicId}/personnel")
@@ -61,9 +63,9 @@ public class ClinicController {
 
     @Transactional
     @PatchMapping("/personnel")
-    public void addEmployee(@RequestParam String email, Authentication authentication) {
+    public void addEmployee(@RequestBody UserRequest userRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        clinicService.addEmployee(user.getEmail(), email);
+        clinicService.addEmployee(user.getEmail(), userRequest);
 
     }
 
