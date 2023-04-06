@@ -45,11 +45,6 @@ public class UserController {
 
     }
 
-    @GetMapping("/{userId}/all_clinics")
-    public Set<Clinic> getAllClinics(@PathVariable Long userId) {
-        return userService.getUser(userId).getClinics();
-    }
-
 //    @Transactional
 //    @DeleteMapping("/{userId}")
 //    public ResponseEntity<?> deleteUserAccount(@PathVariable Long userId){
