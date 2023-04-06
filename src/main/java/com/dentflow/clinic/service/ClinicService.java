@@ -2,14 +2,15 @@ package com.dentflow.clinic.service;
 
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
-import com.dentflow.patient.model.Patient;
+import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.Session;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -42,20 +43,19 @@ public class ClinicService {
 //        return null;
 //    }
 
-    public boolean addEmployee(Long clinicId, Long userId) {
-        if (clinicRepository.findById(clinicId).isPresent()) {
-            clinicRepository.findById(clinicId).get().addEmployee(userService.getUser(userId));
-            return true;
-        }
-        return false;
+    public boolean addEmployee(String email) {
+        User user = userService.getUser(email);
+       userService.getMyClinic(email).addEmployee(user);
+        return true;
     }
 
-//    public Set<User> getPersonnel(Long clinicId) {
-//        Optional<Clinic> clinic = clinicRepository.findById(clinicId);
-//        if (clinic.isPresent()){
-//            return clinic.get().getPersonnel();
-//        } return null;
-//    }
+
+    public Set<User> getPersonnel(Long clinicId) {
+        Optional<Clinic> clinic = clinicRepository.findById(clinicId);
+        if (clinic.isPresent()){
+            return clinic.get().getPersonnel();
+        } return null;
+    }
 //    public void deleteClinic(Long clinicId){
 //        clinicRepository.delete(clinicRepository.findById(clinicId).get());
 //    }
@@ -64,7 +64,7 @@ public class ClinicService {
 //        clinicRepository.findById(clinicId).get().removeEmployee(userService.getUser(userId));
 //    }
 
-    public Set<Clinic> getMyClinics(String email) {
-        return userService.getMyClinics(email);
+    public Clinic getMyClinic(String email) {
+        return userService.getMyClinic(email);
     }
 }

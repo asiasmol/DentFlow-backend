@@ -2,14 +2,15 @@ package com.dentflow.clinic.controller;
 
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.service.ClinicService;
-import com.dentflow.patient.model.Patient;
+import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -29,9 +30,9 @@ public class ClinicController {
     }
 
     @GetMapping("/myClinic")
-    public Set<Clinic> get(Authentication authentication) {
+    public Clinic get(Authentication authentication) {
         User user  = (User) authentication.getPrincipal();
-        return clinicService.getMyClinics(user.getEmail());
+        return clinicService.getMyClinic(user.getEmail());
     }
 
 //    @GetMapping("/{clinicId}")
@@ -39,7 +40,7 @@ public class ClinicController {
 //        return clinicService.getClinicById(clinicId);
 //    }
     @Transactional
-    @PostMapping("")
+    @PostMapping
     public void registerClinic(
             @RequestBody Clinic clinic,
             Authentication authentication
@@ -59,13 +60,14 @@ public class ClinicController {
 //    }
 
     @Transactional
-    @PatchMapping("/{clinicId}/personnel/{userId}")
-    public ResponseEntity<?> addEmployee(@PathVariable("clinicId") Long clinicId, @PathVariable("userId") Long userId) {
-        if (clinicService.addEmployee(clinicId, userId)) {
+    @PatchMapping("/personnel")
+    public ResponseEntity<?> addEmployee(@RequestBody GetUserResponse getUserResponse, Authentication authentication) {
+        if (clinicService.addEmployee(getUserResponse.getEmail())) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
+
 
 //    @PostMapping("/{clinicId}/patient/{patientId}/add")
 //    public void addPatient(

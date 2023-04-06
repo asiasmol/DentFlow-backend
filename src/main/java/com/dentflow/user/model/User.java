@@ -36,9 +36,9 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER,mappedBy = "personnel")
     private Set<Clinic> clinicsWhereWork;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
-    private Set<Clinic> MyClinic;
+    @OneToOne
+    @JoinColumn(name = "clinic_id")
+    private Clinic myClinic;
 
     public void clearClinics(){
         for (Clinic clinic : clinicsWhereWork) {

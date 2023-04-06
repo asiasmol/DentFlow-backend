@@ -21,13 +21,7 @@ public class Clinic {
     private Long id;
 
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JoinTable(
-            name = "myClinic",
-            joinColumns = @JoinColumn(name = "clinic_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @OneToOne(mappedBy = "myClinic")
     private User owner;
 
     public Clinic(String name,User user) {
