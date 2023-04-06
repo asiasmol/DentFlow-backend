@@ -4,6 +4,7 @@ import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
 import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
+import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,11 +20,15 @@ import java.util.Set;
 @AllArgsConstructor
 public class ClinicService {
 
+    private UserRepository userRepository;
     private ClinicRepository clinicRepository;
     private UserService userService;
 
-    public void registerClinic(Clinic clinic,User user) {
-        clinicRepository.save(clinic).setOwner(user);
+    public void registerClinic(String name,User user) {
+        Clinic clinic = new Clinic(name, user);
+        clinicRepository.save(clinic);
+        user.setMyClinic(clinic);
+        userRepository.save(user);
     }
 
     public Set<Clinic> getAllUserClinicWhereWork(String email) {
@@ -43,10 +48,13 @@ public class ClinicService {
 //        return null;
 //    }
 
-    public boolean addEmployee(String email) {
-        User user = userService.getUser(email);
-       userService.getMyClinic(email).addEmployee(user);
-        return true;
+    public void addEmployee(String myEmail, String email) {
+        // TODO
+       Clinic clinic = userService.getMyClinic(myEmail);
+       clinic.addEmployee(userService.getUser(email));
+       userRepository.findByEmail(email).get().addClinic(clinic);
+       userRepository.save(userRepository.findByEmail(email).get());
+       clinicRepository.save(clinic);
     }
 
 

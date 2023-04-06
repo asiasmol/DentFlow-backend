@@ -42,6 +42,5 @@ public class UserService {
 //    }
     public Clinic getMyClinic(String email) {
         return userRepository.findByEmail(email).get().getMyClinic();
-
     }
 }

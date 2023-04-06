@@ -47,6 +47,9 @@ public class User implements UserDetails {
         this.clinicsWhereWork.clear();
     }
 
+    public void addClinic(Clinic clinic){
+        clinicsWhereWork.add(clinic);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

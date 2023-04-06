@@ -37,7 +37,6 @@ public class Clinic {
     )
     private Set<User> personnel;
 
-
     public void addEmployee(User user){
         personnel.add(user);
     }

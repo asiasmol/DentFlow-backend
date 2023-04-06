@@ -6,6 +6,7 @@ import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,12 +43,11 @@ public class ClinicController {
     @Transactional
     @PostMapping
     public void registerClinic(
-            @RequestBody Clinic clinic,
+            @RequestParam String name,
             Authentication authentication
     ) {
         User user = (User) authentication.getPrincipal();
-        clinicService.registerClinic(clinic,user);
-
+        clinicService.registerClinic(name ,user);
     }
 
 //    @GetMapping("/{clinicId}/personnel")
@@ -61,11 +61,10 @@ public class ClinicController {
 
     @Transactional
     @PatchMapping("/personnel")
-    public ResponseEntity<?> addEmployee(@RequestBody GetUserResponse getUserResponse, Authentication authentication) {
-        if (clinicService.addEmployee(getUserResponse.getEmail())) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    public void addEmployee(@RequestParam String email, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        clinicService.addEmployee(user.getEmail(), email);
+
     }
 
 
