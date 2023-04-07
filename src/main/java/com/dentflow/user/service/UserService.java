@@ -32,7 +32,6 @@ public class UserService {
 
     public Set<Clinic> getAllClinicsWhereWork(String email) {
         return userRepository.findByEmail(email).get().getClinicsWhereWork();
-
     }
 
 //    public void deleteUser(Long userId) {

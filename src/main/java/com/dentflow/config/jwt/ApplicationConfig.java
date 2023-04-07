@@ -1,4 +1,4 @@
-package com.dentflow.config;
+package com.dentflow.config.jwt;
 
 import com.dentflow.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;

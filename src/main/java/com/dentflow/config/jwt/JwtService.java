@@ -1,4 +1,4 @@
-package com.dentflow.config;
+package com.dentflow.config.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -85,7 +85,9 @@ public class JwtService {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
-
+        catch (Exception e){
+            logger.error("JWT claims string is empty: {}", e.getMessage());/////////////////////////to do
+        }
         return false;
     }
 }

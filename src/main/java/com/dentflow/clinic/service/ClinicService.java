@@ -3,15 +3,12 @@ package com.dentflow.clinic.service;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
 import com.dentflow.clinic.model.ClinicRequest;
-import com.dentflow.user.model.GetUserResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.UserRequest;
 import com.dentflow.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.Session;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,18 +1,12 @@
 package com.dentflow.user.controller;
 
-import com.dentflow.auth.AuthenticationResponses;
-import com.dentflow.clinic.model.Clinic;
-import com.dentflow.user.model.GetUserResponse;
-import com.dentflow.user.model.ProfileUserResponse;
+import com.dentflow.auth.model.AuthUserResponse;
+import com.dentflow.user.model.UserResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -39,10 +33,9 @@ public class UserController {
 //        return userService.getUser(userId).getClinics();
 //    }
     @GetMapping("/profile")
-    public ProfileUserResponse getUserProfile(Authentication authentication) {
+    public UserResponse getUserProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return new ProfileUserResponse(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword().length());
-
+        return new UserResponse(user.getFirstName(), user.getLastName(), user.getEmail());
     }
 
 //    @Transactional
@@ -52,9 +45,9 @@ public class UserController {
 //        return ResponseEntity.noContent().build();
 //    }
     @GetMapping("/getUser")
-    public ResponseEntity<GetUserResponse> getCurrentUser(Authentication authentication){
+    public ResponseEntity<AuthUserResponse> getCurrentUser(Authentication authentication){
         User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(new GetUserResponse(user.getEmail()));
+        return ResponseEntity.ok(new AuthUserResponse(user.getEmail()));
     }
 
 

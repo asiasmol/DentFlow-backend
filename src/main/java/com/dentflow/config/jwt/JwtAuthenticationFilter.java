@@ -1,4 +1,4 @@
-package com.dentflow.config;
+package com.dentflow.config.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.dentflow.auth;
+package com.dentflow.auth.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

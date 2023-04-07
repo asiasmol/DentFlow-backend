@@ -1,13 +1,15 @@
-package com.dentflow.auth;
+package com.dentflow.auth.service;
 
-import com.dentflow.config.JwtService;
+import com.dentflow.auth.model.AuthenticationRequest;
+import com.dentflow.auth.model.AuthenticationResponses;
+import com.dentflow.auth.model.RegisterRequest;
+import com.dentflow.config.jwt.JwtService;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
