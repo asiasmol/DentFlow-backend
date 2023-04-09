@@ -3,20 +3,20 @@ package com.dentflow.user.model;
 import com.dentflow.clinic.model.Clinic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Data
+
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,27 +28,29 @@ public class User implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
+    @Column(nullable = false, unique = true)
     private String email;
+    @JsonIgnore
     private String password;
 
     private Set<Role> roles;
+    @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "personnel")
-    private Set<Clinic> clinicsWhereWork;
+    private Clinic ownedClinic;
 
-    @OneToOne
-    @JoinColumn(name = "clinic_id")
-    private Clinic myClinic;
+    @ManyToMany(mappedBy = "personnel", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Clinic> clinics;
 
     public void clearClinics(){
-        for (Clinic clinic : clinicsWhereWork) {
+        for (Clinic clinic : clinics) {
             clinic.removeEmployee(this);
         }
-        this.clinicsWhereWork.clear();
+        this.clinics.clear();
     }
 
     public void addClinic(Clinic clinic){
-        clinicsWhereWork.add(clinic);
+        clinics.add(clinic);
     }
 
     @Override

@@ -7,11 +7,14 @@ import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.UserRequest;
 import com.dentflow.user.service.UserService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -26,7 +29,7 @@ public class ClinicService {
     public void registerClinic(ClinicRequest clinicRequest, User user) {
         Clinic clinic = ClinicRequest.toEntity(clinicRequest,user);
         clinicRepository.save(clinic);
-        user.setMyClinic(clinic);
+        user.setOwnedClinic(clinic);
         userRepository.save(user);
     }
 
@@ -48,18 +51,17 @@ public class ClinicService {
 //    }
 
     public void addEmployee(String myEmail, UserRequest userRequest) {
-        User user = userService.getUser(myEmail);
+        Clinic clinic = userService.getUser(myEmail).getOwnedClinic();
         String workerEmail = UserRequest.toEntity(userRequest).getEmail();
-        user.getMyClinic().addEmployee(userService.getUser(workerEmail));
+        clinic.addEmployee(userService.getUser(workerEmail));
+        clinicRepository.save(clinic);
     }
 
 
-    public Set<User> getPersonnel(Long clinicId) {
-        Optional<Clinic> clinic = clinicRepository.findById(clinicId);
-        if (clinic.isPresent()){
-            return clinic.get().getPersonnel();
-        } return null;
+    public Set<User> getPersonnel(String email) {
+        return getMyClinic(email).getPersonnel();
     }
+
 //    public void deleteClinic(Long clinicId){
 //        clinicRepository.delete(clinicRepository.findById(clinicId).get());
 //    }

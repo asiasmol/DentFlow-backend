@@ -4,9 +4,9 @@ import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.user.model.User;
+import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.UserRequest;
 import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -19,25 +19,20 @@ public class ClinicController {
 
     public ClinicController(ClinicService clinicService) {
         this.clinicService = clinicService;
+
     }
 
-    @GetMapping("/whereWork")
+    @GetMapping("/myClinics")
     public Set<Clinic> getClinicByUser(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return clinicService.getAllUserClinicWhereWork(user.getEmail());
     }
 
-    @GetMapping("/myClinic")
-    public Clinic get(Authentication authentication) {
-        User user  = (User) authentication.getPrincipal();
-        return clinicService.getMyClinic(user.getEmail());
-    }
 
 //    @GetMapping("/{clinicId}")
 //    public Clinic getClinicById(@PathVariable long clinicId) {
 //        return clinicService.getClinicById(clinicId);
 //    }
-
     @PostMapping
     public void registerClinic(
             @RequestBody  ClinicRequest clinicRequest,
@@ -47,16 +42,23 @@ public class ClinicController {
         clinicService.registerClinic(clinicRequest,user);
     }
 
+
 //    @GetMapping("/{clinicId}/personnel")
 //    public Set<User> getPersonnel(@PathVariable("clinicId") Long clinicId) {
 //        return clinicService.getPersonnel(clinicId);
 //    }
+    @GetMapping("/myClinic")
+    public Clinic get(Authentication authentication) {
+        User user  = (User) authentication.getPrincipal();
+        return clinicService.getMyClinic(user.getEmail());
+    }
 
-//    @GetMapping("/personnel/{userId}")
-//    public void getEmployee() {
-//    }
+    @GetMapping("/personnel")
+    public Set<User> getPersonnel(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return clinicService.getPersonnel(user.getEmail());
+    }
 
-    @Transactional
     @PatchMapping("/personnel")
     public void addEmployee(@RequestBody UserRequest userRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();

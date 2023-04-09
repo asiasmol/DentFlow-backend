@@ -27,11 +27,11 @@ public class UserService {
 //    }
 
     public User getUser(String email) {
-        return userRepository.findByEmail(email).get();
+        return userRepository.findByEmail(email).orElseThrow();
     }
 
     public Set<Clinic> getAllClinicsWhereWork(String email) {
-        return userRepository.findByEmail(email).get().getClinicsWhereWork();
+        return userRepository.findByEmail(email).get().getClinics();
     }
 
 //    public void deleteUser(Long userId) {
@@ -40,6 +40,7 @@ public class UserService {
 //        userRepository.delete(user);
 //    }
     public Clinic getMyClinic(String email) {
-        return userRepository.findByEmail(email).get().getMyClinic();
+        return userRepository.findByEmail(email).get().getOwnedClinic();
     }
+
 }
