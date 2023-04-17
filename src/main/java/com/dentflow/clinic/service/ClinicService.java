@@ -3,6 +3,7 @@ package com.dentflow.clinic.service;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
 import com.dentflow.clinic.model.ClinicRequest;
+import com.dentflow.patient.model.Patient;
 import com.dentflow.user.model.Role;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
@@ -68,6 +69,10 @@ public class ClinicService {
 
     public Set<User> getPersonnel(String email) {
         return getMyClinic(email).getPersonnel();
+    }
+
+    public Set<Patient> getPatients(String email) {
+        return getMyClinic(email).getPatients();
     }
 
 //    public void deleteClinic(Long clinicId){

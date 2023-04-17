@@ -3,6 +3,7 @@ package com.dentflow.clinic.controller;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.clinic.service.ClinicService;
+import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.patient.service.PatientService;
 import com.dentflow.user.model.User;
@@ -67,6 +68,12 @@ public class ClinicController {
         User user = (User) authentication.getPrincipal();
         clinicService.addEmployee(user.getEmail(), userRequest);
 
+    }
+
+    @GetMapping("/patients")
+    public Set<Patient> getPatients(Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        return clinicService.getPatients(user.getEmail());
     }
     
 
