@@ -1,15 +1,16 @@
 package com.dentflow.clinic.model;
 
+import com.dentflow.patient.model.Patient;
 import com.dentflow.user.model.User;
+import com.dentflow.visit.model.Visit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "clinics")
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
 @Data
@@ -25,6 +26,7 @@ public class Clinic {
     @JoinColumn(name = "owner_id",unique = true)
     private User owner;
 
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "clinic_personnel",
@@ -33,6 +35,10 @@ public class Clinic {
     )
     @JsonIgnore
     private Set<User> personnel;
+    @OneToMany
+    private Set<Visit> visits;
+    @OneToMany
+    private Set<Patient> patients;
 
     public void addEmployee(User user){
         personnel.add(user);
@@ -42,4 +48,11 @@ public class Clinic {
 //        user.getClinics().remove(this);
     }
 
+    public void addVisit(Visit visit) {
+        visits.add(visit);
+    }
+
+    public void addPatient(Patient patient) {
+        patients.add(patient);
+    }
 }

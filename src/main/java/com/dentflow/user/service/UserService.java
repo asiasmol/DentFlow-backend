@@ -6,6 +6,7 @@ import com.dentflow.user.model.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -22,9 +23,12 @@ public class UserService {
 //        userRepository.save(user);
 //    }
 
-//    public List<User> getAll() {
-//        return userRepository.findAll();
-//    }
+    public Set<String> getAllEmails(User user) {
+        Set<String> users = userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toSet());
+        users.remove(user.getEmail());
+//        user.getOwnedClinic().getPersonnel().stream().map(User::getEmail).collect(Collectors.toSet()).forEach(users::remove);
+        return users;
+    }
 
     public User getUser(String email) {
         return userRepository.findByEmail(email).orElseThrow();

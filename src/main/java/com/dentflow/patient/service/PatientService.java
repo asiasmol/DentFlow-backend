@@ -1,7 +1,11 @@
 package com.dentflow.patient.service;
 
+import com.dentflow.clinic.model.Clinic;
+import com.dentflow.clinic.model.ClinicRepository;
+import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRepository;
+import com.dentflow.patient.model.PatientRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,14 +14,22 @@ import java.util.List;
 public class PatientService {
 
     private final PatientRepository patientRepository;
+    private final ClinicRepository clinicRepository;
+    private final ClinicService clinicService;
 
 
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository, ClinicRepository clinicRepository, ClinicService clinicService) {
         this.patientRepository = patientRepository;
+        this.clinicRepository = clinicRepository;
+        this.clinicService = clinicService;
     }
 
-    public void registerPatient(Patient patient) {
+    public void registerPatient(PatientRequest request,long clinicId) {
+        Patient patient = PatientRequest.toEntity(request);
+        Clinic clinic = clinicService.getClinicById(clinicId);
         patientRepository.save(patient);
+        clinic.addPatient(patient);
+        clinicRepository.save(clinic);
     }
 
     public Patient getPatient(long patientId) {

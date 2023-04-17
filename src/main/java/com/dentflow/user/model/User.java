@@ -49,8 +49,8 @@ public class User implements UserDetails {
         this.clinics.clear();
     }
 
-    public void addClinic(Clinic clinic){
-        clinics.add(clinic);
+    public void addRole(Role role){
+        roles.add(role);
     }
 
     @Override

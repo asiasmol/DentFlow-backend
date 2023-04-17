@@ -1,6 +1,7 @@
 package com.dentflow.patient.controller;
 
 import com.dentflow.patient.model.Patient;
+import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.patient.service.PatientService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,6 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @PostMapping("/register_patient")
-    public void registerPatientToClinic(@RequestBody Patient patient) {
-        patientService.registerPatient(patient);
-    }
     @GetMapping("/{patientId}")
     public Patient getPatientFromClinic(
             @PathVariable long patientId){

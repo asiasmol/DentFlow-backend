@@ -3,9 +3,14 @@ package com.dentflow.clinic.controller;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.clinic.service.ClinicService;
+import com.dentflow.patient.model.PatientRequest;
+import com.dentflow.patient.service.PatientService;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.UserRequest;
+import com.dentflow.visit.model.Visit;
+import com.dentflow.visit.model.VisitRequest;
+import com.dentflow.visit.service.VisitService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +21,13 @@ import java.util.Set;
 public class ClinicController {
 
     private ClinicService clinicService;
+    private VisitService visitService;
+    private PatientService patientService;
 
-    public ClinicController(ClinicService clinicService) {
+    public ClinicController(ClinicService clinicService,VisitService visitService,PatientService patientService) {
         this.clinicService = clinicService;
-
+        this.visitService = visitService;
+        this.patientService = patientService;
     }
 
     @GetMapping("/myClinics")
@@ -29,10 +37,20 @@ public class ClinicController {
     }
 
 
-//    @GetMapping("/{clinicId}")
-//    public Clinic getClinicById(@PathVariable long clinicId) {
-//        return clinicService.getClinicById(clinicId);
-//    }
+    @GetMapping("/{clinicId}/visits")
+    public Set<Visit> getVisitsByClinicId(@PathVariable long clinicId, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return visitService.getVisitsByClinicId(user.getEmail(),clinicId);
+    }
+    @PostMapping("/{clinicId}/visits")
+    public void addVisitsByClinicId(@RequestBody VisitRequest visitRequest, @PathVariable long clinicId, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        visitService.addVisitsToClinic(visitRequest, user.getEmail(),clinicId);
+    }
+    @PostMapping("/{clinicId}/patients")
+    public void registerPatient(@PathVariable long clinicId,@RequestBody PatientRequest request) {
+        patientService.registerPatient(request,clinicId);
+    }
     @PostMapping
     public void registerClinic(
             @RequestBody  ClinicRequest clinicRequest,
@@ -62,9 +80,11 @@ public class ClinicController {
     @PatchMapping("/personnel")
     public void addEmployee(@RequestBody UserRequest userRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+        System.out.println(userRequest.getEmail());
         clinicService.addEmployee(user.getEmail(), userRequest);
 
     }
+    
 
 
 //    @PostMapping("/{clinicId}/patient/{patientId}/add")

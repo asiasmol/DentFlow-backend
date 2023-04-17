@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -18,10 +20,11 @@ public class UserController {
     }
 
 
-//    @GetMapping("")
-//    public List<User> getAllUsers() {
-//        return userService.getAll();
-//    }
+    @GetMapping("")
+    public Set<String> getAllUsers(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return userService.getAllEmails(user);
+    }
 
 //    @GetMapping("/{userId}")
 //    public User getUser(@PathVariable Long userId) {
@@ -47,7 +50,7 @@ public class UserController {
     @GetMapping("/getUser")
     public ResponseEntity<AuthUserResponse> getCurrentUser(Authentication authentication){
         User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(new AuthUserResponse(user.getEmail()));
+        return ResponseEntity.ok(new AuthUserResponse(user.getEmail(),user.getRoles()));
     }
 
 
