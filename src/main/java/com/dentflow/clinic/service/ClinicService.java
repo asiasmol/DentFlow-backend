@@ -57,8 +57,11 @@ public class ClinicService {
 
     public void addEmployee(String myEmail, UserRequest userRequest) {
         Clinic clinic = userService.getUser(myEmail).getOwnedClinic();
-        String workerEmail = UserRequest.toEntity(userRequest).getEmail();
-        clinic.addEmployee(userService.getUser(workerEmail));
+        String workerEmail = userRequest.getEmail();
+        User user= userService.getUser(workerEmail);
+        user.addRole(userRequest.getRole());
+        userRepository.save(user);
+        clinic.addEmployee(user);
         clinicRepository.save(clinic);
     }
 

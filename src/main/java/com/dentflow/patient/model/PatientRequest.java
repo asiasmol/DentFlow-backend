@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PatientRequest {
 
+    private int clinicId;
     private String firstName;
     private String lastName;
     private String email;

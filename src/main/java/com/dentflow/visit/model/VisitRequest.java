@@ -20,6 +20,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class VisitRequest {
 
+    private int clinicId;
+
     private Date visitDate;
     private String visitTime;
     private int duration;

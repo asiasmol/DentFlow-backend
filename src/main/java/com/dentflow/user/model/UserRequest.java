@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserRequest {
     private String email;
+    private Role role;
 
     public static User toEntity(UserRequest request) {
         return User.builder()

@@ -36,21 +36,6 @@ public class ClinicController {
         return clinicService.getAllUserClinicWhereWork(user.getEmail());
     }
 
-
-    @GetMapping("/{clinicId}/visits")
-    public Set<Visit> getVisitsByClinicId(@PathVariable long clinicId, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return visitService.getVisitsByClinicId(user.getEmail(),clinicId);
-    }
-    @PostMapping("/{clinicId}/visits")
-    public void addVisitsByClinicId(@RequestBody VisitRequest visitRequest, @PathVariable long clinicId, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        visitService.addVisitsToClinic(visitRequest, user.getEmail(),clinicId);
-    }
-    @PostMapping("/{clinicId}/patients")
-    public void registerPatient(@PathVariable long clinicId,@RequestBody PatientRequest request) {
-        patientService.registerPatient(request,clinicId);
-    }
     @PostMapping
     public void registerClinic(
             @RequestBody  ClinicRequest clinicRequest,
@@ -80,7 +65,6 @@ public class ClinicController {
     @PatchMapping("/personnel")
     public void addEmployee(@RequestBody UserRequest userRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        System.out.println(userRequest.getEmail());
         clinicService.addEmployee(user.getEmail(), userRequest);
 
     }

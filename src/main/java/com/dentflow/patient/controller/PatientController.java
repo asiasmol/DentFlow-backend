@@ -19,4 +19,8 @@ public class PatientController {
             @PathVariable long patientId){
         return patientService.getPatient(patientId);
     }
+    @PostMapping
+    public void registerPatient(@RequestBody PatientRequest request) {
+        patientService.registerPatient(request);
+    }
 }

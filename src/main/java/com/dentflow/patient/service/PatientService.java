@@ -24,9 +24,9 @@ public class PatientService {
         this.clinicService = clinicService;
     }
 
-    public void registerPatient(PatientRequest request,long clinicId) {
+    public void registerPatient(PatientRequest request) {
         Patient patient = PatientRequest.toEntity(request);
-        Clinic clinic = clinicService.getClinicById(clinicId);
+        Clinic clinic = clinicService.getClinicById(request.getClinicId());
         patientRepository.save(patient);
         clinic.addPatient(patient);
         clinicRepository.save(clinic);
