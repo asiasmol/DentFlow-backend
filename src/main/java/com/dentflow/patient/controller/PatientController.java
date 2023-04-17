@@ -3,6 +3,8 @@ package com.dentflow.patient.controller;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.patient.service.PatientService;
+import com.dentflow.user.model.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +22,9 @@ public class PatientController {
         return patientService.getPatient(patientId);
     }
     @PostMapping
-    public void registerPatient(@RequestBody PatientRequest request) {
-        patientService.registerPatient(request);
+    public void registerPatient(@RequestBody PatientRequest request, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        System.out.println(request);
+        patientService.registerPatient(request, user.getEmail());
     }
 }

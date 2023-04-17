@@ -25,8 +25,6 @@ public class Clinic {
     @JsonIgnore
     @JoinColumn(name = "owner_id",unique = true)
     private User owner;
-
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "clinic_personnel",
