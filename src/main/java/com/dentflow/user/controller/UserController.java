@@ -1,6 +1,7 @@
 package com.dentflow.user.controller;
 
 import com.dentflow.auth.model.AuthUserResponse;
+import com.dentflow.user.model.UserRequest;
 import com.dentflow.user.model.UserResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
@@ -39,6 +40,12 @@ public class UserController {
     public UserResponse getUserProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return new UserResponse(user.getFirstName(), user.getLastName(), user.getEmail());
+    }
+
+    @PatchMapping("/profile")
+    public void updateProfile(@RequestBody UserRequest request, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        userService.updateUser(user.getEmail(), request);
     }
 
 //    @Transactional
