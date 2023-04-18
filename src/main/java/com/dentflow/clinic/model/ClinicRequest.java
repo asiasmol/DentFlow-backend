@@ -13,7 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClinicRequest {
-    private long clinicId;
     private String name;
     private User owner;
     private Long clinicId;
