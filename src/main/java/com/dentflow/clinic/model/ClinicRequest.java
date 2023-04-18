@@ -16,6 +16,7 @@ public class ClinicRequest {
     private long clinicId;
     private String name;
     private User owner;
+    private Long clinicId;
 
     public static Clinic toEntity(ClinicRequest request,User user) {
         return Clinic.builder()

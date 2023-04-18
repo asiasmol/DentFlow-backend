@@ -4,7 +4,6 @@ import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.patient.model.Patient;
-import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.patient.service.PatientService;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRequest;
@@ -71,6 +70,12 @@ public class ClinicController {
     public Set<Patient> getPatients(Authentication authentication, ClinicRequest request){
         User user = (User) authentication.getPrincipal();
         return clinicService.getPatients(user.getEmail(), request.getClinicId());
+    }
+
+    @GetMapping("/doctors")
+    public Set<User> getDoctors(Authentication authentication, ClinicRequest clinicRequest){
+        User user = (User) authentication.getPrincipal();
+        return clinicService.getDoctors(user.getEmail(), clinicRequest.getClinicId());
     }
 
 
