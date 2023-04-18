@@ -13,7 +13,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -23,7 +23,7 @@ public class UserController {
     @GetMapping("")
     public Set<String> getAllUsers(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return userService.getAllEmails(user);
+        return userService.getAllEmails(user.getEmail());
     }
 
 //    @GetMapping("/{userId}")

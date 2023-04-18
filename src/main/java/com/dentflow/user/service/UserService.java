@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     public UserService(UserRepository userRepository) {
@@ -24,10 +24,11 @@ public class UserService {
 //        userRepository.save(user);
 //    }
 
-    public Set<String> getAllEmails(User user) {
-        Set<String> users = userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toSet());
-        users.remove(user.getEmail());
-//        user.getOwnedClinic().getPersonnel().stream().map(User::getEmail).collect(Collectors.toSet()).forEach(users::remove);
+    public Set<String> getAllEmails(String email) {
+        Set<String> users = userRepository.findAll().stream().filter(u -> u.getOwnedClinic() == null).map(User::getEmail).collect(Collectors.toSet());
+        users.remove(email);
+        Set<String> usersToRemove = getUser(email).getOwnedClinic().getPersonnel().stream().map(User::getEmail).collect(Collectors.toSet());
+        users.removeAll(usersToRemove);
         return users;
     }
 

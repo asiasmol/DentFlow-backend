@@ -13,7 +13,8 @@ import java.util.Set;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 public class Clinic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +35,10 @@ public class Clinic {
     @JsonIgnore
     private Set<User> personnel;
     @OneToMany
+    @JsonIgnore
     private Set<Visit> visits;
     @OneToMany
+    @JsonIgnore
     private Set<Patient> patients;
 
     public void addEmployee(User user){

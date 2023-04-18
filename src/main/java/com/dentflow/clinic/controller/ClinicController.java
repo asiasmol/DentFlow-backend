@@ -17,14 +17,11 @@ import java.util.Set;
 @RequestMapping("/api/clinics")
 public class ClinicController {
 
-    private ClinicService clinicService;
-    private VisitService visitService;
-    private PatientService patientService;
+    private final ClinicService clinicService;
+
 
     public ClinicController(ClinicService clinicService,VisitService visitService,PatientService patientService) {
         this.clinicService = clinicService;
-        this.visitService = visitService;
-        this.patientService = patientService;
     }
 
     @GetMapping("/myClinics")

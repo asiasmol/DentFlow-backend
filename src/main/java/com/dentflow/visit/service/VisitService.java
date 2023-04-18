@@ -12,16 +12,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class VisitService {
 
-    private VisitRepository visitRepository;
-    private ClinicRepository clinicRepository;
-    private UserService userService;
-    private PatientService patientService;
+    private final VisitRepository visitRepository;
+    private final ClinicRepository clinicRepository;
+    private final UserService userService;
+    private final PatientService patientService;
 
 
     public VisitService(VisitRepository visitRepository,UserService userService,PatientService patientService,ClinicRepository clinicRepository) {
@@ -31,14 +32,14 @@ public class VisitService {
         this.clinicRepository = clinicRepository;
     }
 
-    public Set<Visit> getVisitsByClinicId(String email, long clinicId) {
-        Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> c.getId()==clinicId).findFirst()
+    public Set<Visit> getVisitsByClinicId(String email, Long clinicId) {
+        Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> Objects.equals(c.getId(), clinicId)).findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found: "));
         return clinic.getVisits();
     }
 
     public void addVisitsToClinic(VisitRequest visitRequest, String email) {
-        Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> c.getId()==visitRequest.getClinicId()).findFirst()
+        Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> Objects.equals(c.getId(), visitRequest.getClinicId())).findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
         Visit visit = VisitRequest.toEntity(visitRequest);
         visit.setDoctor(userService.getUser(visitRequest.getDoctorEmail()));

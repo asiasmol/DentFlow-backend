@@ -30,9 +30,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ClinicService {
 
-    private UserRepository userRepository;
-    private ClinicRepository clinicRepository;
-    private UserService userService;
+    private final UserRepository userRepository;
+    private final ClinicRepository clinicRepository;
+    private final UserService userService;
 
     public void registerClinic(ClinicRequest clinicRequest, User user) {
         Clinic clinic = ClinicRequest.toEntity(clinicRequest,user);

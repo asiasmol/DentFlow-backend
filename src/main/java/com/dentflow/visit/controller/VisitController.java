@@ -13,7 +13,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/visits")
 public class VisitController {
-    private VisitService visitService;
+    private final VisitService visitService;
 
     public VisitController(VisitService visitService) {
         this.visitService = visitService;
@@ -28,8 +28,7 @@ public class VisitController {
     @PostMapping
     public void addVisitsByClinicId(@RequestBody VisitRequest visitRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        System.out.println(visitRequest);
-//        visitService.addVisitsToClinic(visitRequest, user.getEmail());
+        visitService.addVisitsToClinic(visitRequest, user.getEmail());
     }
 
 

@@ -1,18 +1,14 @@
 package com.dentflow.visit.model;
 
-import com.dentflow.patient.model.Patient;
-import com.dentflow.user.model.User;
-import com.dentflow.user.model.UserRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
@@ -20,19 +16,29 @@ import java.util.Date;
 @AllArgsConstructor
 public class VisitRequest {
 
-    private int clinicId;
-
-    private Date visitDate;
+    private Long clinicId;
+    private String visitDate;
     private String visitTime;
     private String doctorEmail;
-    private int patientId;
+    private Long patientId;
     private String description;
 
     public static Visit toEntity(VisitRequest request) {
         return Visit.builder()
-                .visitDate(request.getVisitDate())
-                .visitTime(request.getVisitTime())
+                .visitDate(convertStringtoData(request.getVisitDate(), request.getVisitTime()))
                 .description(request.getDescription())
                 .build();
+    }
+
+    private static LocalDateTime convertStringtoData(String visitDate, String visitTime){
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate date = LocalDate.parse(visitDate, dateFormatter);
+        DateTimeFormatter timeFormatter;
+
+        if (visitTime.length() == 4) timeFormatter = DateTimeFormatter.ofPattern("H:mm");
+        else timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        LocalTime time = LocalTime.parse(visitTime, timeFormatter);
+        return LocalDateTime.of(date, time);
     }
 }

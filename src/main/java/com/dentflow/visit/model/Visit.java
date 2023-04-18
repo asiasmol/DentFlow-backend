@@ -5,6 +5,7 @@ import com.dentflow.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -20,10 +21,8 @@ public class Visit {
     private Long id;
 
     @Column(name = "visit_date")
-    private Date visitDate;
+    private LocalDateTime visitDate;
 
-    @Column(name = "visit_time")
-    private String visitTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
