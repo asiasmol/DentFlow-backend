@@ -25,9 +25,6 @@ public class Visit {
     @Column(name = "visit_time")
     private String visitTime;
 
-    @Column(name = "duration")
-    private int duration;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     private User doctor;

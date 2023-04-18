@@ -24,7 +24,6 @@ public class VisitRequest {
 
     private Date visitDate;
     private String visitTime;
-    private int duration;
     private String doctorEmail;
     private int patientId;
     private String description;
@@ -33,7 +32,6 @@ public class VisitRequest {
         return Visit.builder()
                 .visitDate(request.getVisitDate())
                 .visitTime(request.getVisitTime())
-                .duration(request.getDuration())
                 .description(request.getDescription())
                 .build();
     }
