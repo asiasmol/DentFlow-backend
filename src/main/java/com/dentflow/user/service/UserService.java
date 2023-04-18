@@ -3,6 +3,7 @@ package com.dentflow.user.service;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -31,7 +32,7 @@ public class UserService {
     }
 
     public User getUser(String email) {
-        return userRepository.findByEmail(email).orElseThrow();
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public Set<Clinic> getAllClinicsWhereWork(String email) {

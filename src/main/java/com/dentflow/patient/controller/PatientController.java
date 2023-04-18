@@ -24,7 +24,6 @@ public class PatientController {
     @PostMapping
     public void registerPatient(@RequestBody PatientRequest request, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        System.out.println(request);
         patientService.registerPatient(request, user.getEmail());
     }
 }
