@@ -77,7 +77,7 @@ public class ClinicController {
         User user = (User) authentication.getPrincipal();
         return clinicService.getDoctors(user.getEmail(), clinicRequest.getClinicId());
     }
-
+    
 
 
 //    @PostMapping("/{clinicId}/patient/{patientId}/add")
