@@ -71,9 +71,9 @@ public class ClinicController {
     }
 
     @GetMapping("/patients")
-    public Set<Patient> getPatients(Authentication authentication){
+    public Set<Patient> getPatients(Authentication authentication, ClinicRequest request){
         User user = (User) authentication.getPrincipal();
-        return clinicService.getPatients(user.getEmail());
+        return clinicService.getPatients(user.getEmail(), request.getClinicId());
     }
     
 

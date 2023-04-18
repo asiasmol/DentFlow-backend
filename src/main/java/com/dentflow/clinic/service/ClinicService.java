@@ -71,8 +71,10 @@ public class ClinicService {
         return getMyClinic(email).getPersonnel();
     }
 
-    public Set<Patient> getPatients(String email) {
-        return getMyClinic(email).getPatients();
+    public Set<Patient> getPatients(String email, long clinicId) {
+        User user = userService.getUser(email);
+
+        return user.getClinics().stream().filter(c -> c.getId() == clinicId).findFirst().orElse(user.getOwnedClinic()).getPatients();
     }
 
 //    public void deleteClinic(Long clinicId){
