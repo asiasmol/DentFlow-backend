@@ -7,10 +7,7 @@ import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.patient.service.PatientService;
 import com.dentflow.user.model.User;
-import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.UserRequest;
-import com.dentflow.visit.model.Visit;
-import com.dentflow.visit.model.VisitRequest;
 import com.dentflow.visit.service.VisitService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +72,7 @@ public class ClinicController {
         User user = (User) authentication.getPrincipal();
         return clinicService.getPatients(user.getEmail());
     }
-    
+
 
 
 //    @PostMapping("/{clinicId}/patient/{patientId}/add")

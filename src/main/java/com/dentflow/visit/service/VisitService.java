@@ -39,7 +39,7 @@ public class VisitService {
 
     public void addVisitsToClinic(VisitRequest visitRequest, String email) {
         Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> c.getId()==visitRequest.getClinicId()).findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found: "));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
         Visit visit = VisitRequest.toEntity(visitRequest);
         visit.setDoctor(userService.getUser(visitRequest.getDoctorEmail()));
         visit.setPatient(patientService.getPatient(visitRequest.getPatientId()));

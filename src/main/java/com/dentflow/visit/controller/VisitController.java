@@ -24,10 +24,12 @@ public class VisitController {
         User user = (User) authentication.getPrincipal();
         return visitService.getVisitsByClinicId(user.getEmail(),visitRequest.getClinicId());
     }
+
     @PostMapping
     public void addVisitsByClinicId(@RequestBody VisitRequest visitRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        visitService.addVisitsToClinic(visitRequest, user.getEmail());
+        System.out.println(visitRequest);
+//        visitService.addVisitsToClinic(visitRequest, user.getEmail());
     }
 
 
