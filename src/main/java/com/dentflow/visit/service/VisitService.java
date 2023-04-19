@@ -2,8 +2,8 @@ package com.dentflow.visit.service;
 
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
+import com.dentflow.patient.model.PatientRepository;
 import com.dentflow.patient.service.PatientService;
-import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
 import com.dentflow.visit.model.Visit;
 import com.dentflow.visit.model.VisitRepository;
@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class VisitService {
@@ -25,7 +24,8 @@ public class VisitService {
     private final PatientService patientService;
 
 
-    public VisitService(VisitRepository visitRepository,UserService userService,PatientService patientService,ClinicRepository clinicRepository) {
+
+    public VisitService(VisitRepository visitRepository, UserService userService, PatientService patientService, ClinicRepository clinicRepository, PatientRepository patientRepository) {
         this.visitRepository = visitRepository;
         this.userService = userService;
         this.patientService = patientService;
@@ -45,6 +45,7 @@ public class VisitService {
         visit.setDoctor(userService.getUser(visitRequest.getDoctorEmail()));
         visit.setPatient(patientService.getPatient(visitRequest.getPatientId()));
         visitRepository.save(visit);
+        patientService.getPatient(visitRequest.getPatientId()).getVisits().add(visit);
         clinic.addVisit(visit);
         clinicRepository.save(clinic);
     }
