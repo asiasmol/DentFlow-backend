@@ -7,11 +7,14 @@ import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRepository;
 import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.user.service.UserService;
+import com.dentflow.visit.model.Visit;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PatientService {
@@ -45,4 +48,12 @@ public class PatientService {
     public List<Patient> getAllPatientsFromClinic(long clinicId) {
        return null;
     }
+
+    public Set<Visit> getPatientVisitHistory(PatientRequest request, String email){
+        Patient patient = PatientRequest.toEntity(request);
+        Clinic clinic = userService.getUser(email).getClinics().stream()
+                .filter(c -> c.getId() == request.getClinicId()).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
+        return clinic.getPatients().stream().filter(p -> p == patient).findFirst().get().getVisits();
+    }
+
 }

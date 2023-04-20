@@ -19,7 +19,6 @@ public class ClinicController {
 
     private final ClinicService clinicService;
 
-
     public ClinicController(ClinicService clinicService,VisitService visitService,PatientService patientService) {
         this.clinicService = clinicService;
     }
@@ -39,11 +38,6 @@ public class ClinicController {
         clinicService.registerClinic(clinicRequest,user);
     }
 
-
-//    @GetMapping("/{clinicId}/personnel")
-//    public Set<User> getPersonnel(@PathVariable("clinicId") Long clinicId) {
-//        return clinicService.getPersonnel(clinicId);
-//    }
     @GetMapping("/myClinic")
     public Clinic get(Authentication authentication) {
         User user  = (User) authentication.getPrincipal();
@@ -60,7 +54,6 @@ public class ClinicController {
     public void addEmployee(@RequestBody UserRequest userRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         clinicService.addEmployee(user.getEmail(), userRequest);
-
     }
 
     @GetMapping("/patients")
@@ -74,23 +67,8 @@ public class ClinicController {
         User user = (User) authentication.getPrincipal();
         return clinicService.getDoctors(user.getEmail(), clinicRequest.getClinicId());
     }
-    
 
 
-//    @PostMapping("/{clinicId}/patient/{patientId}/add")
-//    public void addPatient(
-//            @PathVariable long clinicId,
-//            @PathVariable long patientId
-//    ) {
-//        clinicService.addPatient(clinicId, patientId);
-//    }
-
-//    @GetMapping("/{clinicId}/patient/all")
-//    public List<Patient> getAllPatientsFromClinic(
-//            @PathVariable long clinicId) {
-//        return clinicService.getAllPatient(clinicId);
-//    }
-//
 //    @Transactional
 //    @DeleteMapping("/{clinicId}")
 //    public void deleteClinic(@PathVariable Long clinicId){
