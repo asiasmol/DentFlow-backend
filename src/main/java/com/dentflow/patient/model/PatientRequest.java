@@ -13,11 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PatientRequest {
 
-    private int clinicId;
+    private Long clinicId;
+    private Long patientId;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
+
 
     public static Patient toEntity(PatientRequest request) {
         return Patient.builder()

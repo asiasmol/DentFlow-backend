@@ -1,6 +1,7 @@
 package com.dentflow.patient.model;
 
 
+import com.dentflow.tooth.model.Tooth;
 import com.dentflow.visit.model.Visit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -30,5 +31,7 @@ public class Patient {
     @JsonIgnore
     @OneToMany
     private Set<Visit> visits;
+    @OneToMany
+    private Set<Tooth> teeth;
 
 }
