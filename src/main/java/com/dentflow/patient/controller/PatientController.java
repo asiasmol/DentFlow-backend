@@ -20,7 +20,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @GetMapping("/{patientId}}")
+    @GetMapping("/getPatient")
     public Patient getPatientFromClinic(
             @PathVariable long patientId){
         return patientService.getPatient(patientId);
