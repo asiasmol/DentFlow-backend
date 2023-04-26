@@ -1,0 +1,1 @@
+docker run -p 8080:8080 --name dentflow-app --network dentflow-network -e SPRING_DATASOURCE_URL=jdbc:postgresql://dentflow:5432/dentflow -e SPRING_DATASOURCE_USERNAME=eternal -e SPRING_DATASOURCE_PASSWORD=eternal dentflow
