@@ -24,7 +24,7 @@ public class Visit {
     private LocalDateTime visitDate;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
     private User doctor;
 
