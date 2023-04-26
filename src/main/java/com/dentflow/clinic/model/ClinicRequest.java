@@ -13,9 +13,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClinicRequest {
+    private Long clinicId;
     private String name;
     private User owner;
-    private Long clinicId;
 
     public static Clinic toEntity(ClinicRequest request,User user) {
         return Clinic.builder()

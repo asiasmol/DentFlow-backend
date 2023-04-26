@@ -28,7 +28,7 @@ public class Visit {
     @JoinColumn(name = "doctor_id")
     private User doctor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
 

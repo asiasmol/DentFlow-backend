@@ -1,6 +1,7 @@
 package com.dentflow.visit.controller;
 
 
+import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.user.model.User;
 import com.dentflow.visit.model.Visit;
 import com.dentflow.visit.model.VisitRequest;
@@ -20,9 +21,9 @@ public class VisitController {
     }
 
     @GetMapping
-    public Set<Visit> getVisitsByClinicId(@RequestBody VisitRequest visitRequest, Authentication authentication) {
+    public Set<Visit> getVisitsByClinicId(ClinicRequest clinicRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return visitService.getVisitsByClinicId(user.getEmail(),visitRequest.getClinicId());
+        return visitService.getVisitsByClinicId(user.getEmail(),clinicRequest.getClinicId());
     }
 
     @PostMapping

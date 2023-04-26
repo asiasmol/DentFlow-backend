@@ -31,6 +31,8 @@ public class VisitRequest {
     }
 
     private static LocalDateTime convertStringtoData(String visitDate, String visitTime){
+        System.out.println(visitDate);
+        System.out.println(visitTime);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = LocalDate.parse(visitDate, dateFormatter);
         DateTimeFormatter timeFormatter;

@@ -33,9 +33,8 @@ public class VisitService {
     }
 
     public Set<Visit> getVisitsByClinicId(String email, Long clinicId) {
-        Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> Objects.equals(c.getId(), clinicId)).findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found: "));
-        return clinic.getVisits();
+        return userService.getUser(email).getClinics().stream().filter(c -> Objects.equals(c.getId(), clinicId)).findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found: ")).getVisits();
     }
 
     public void addVisitsToClinic(VisitRequest visitRequest, String email) {
