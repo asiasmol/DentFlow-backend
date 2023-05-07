@@ -7,6 +7,7 @@ import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRepository;
 import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.tooth.model.Tooth;
+import com.dentflow.tooth.model.ToothRepository;
 import com.dentflow.user.service.UserService;
 import com.dentflow.visit.model.Visit;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -22,13 +22,15 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
     private final ClinicRepository clinicRepository;
+    private final ToothRepository toothRepository;
     private final ClinicService clinicService;
     private final UserService userService;
 
 
-    public PatientService(PatientRepository patientRepository, ClinicRepository clinicRepository, ClinicService clinicService, UserService userService) {
+    public PatientService(PatientRepository patientRepository, ClinicRepository clinicRepository, ToothRepository toothRepository, ClinicService clinicService, UserService userService) {
         this.patientRepository = patientRepository;
         this.clinicRepository = clinicRepository;
+        this.toothRepository = toothRepository;
         this.clinicService = clinicService;
         this.userService = userService;
     }
@@ -37,8 +39,9 @@ public class PatientService {
         Patient patient = PatientRequest.toEntity(request);
         Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> c.getId() == request.getClinicId())
                         .findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
+        patientRepository.save(patient);
         for(int i = 1; i <= 32; i++){
-            patient.getTeeth().add(Tooth.builder().number(i).patient(patient).build());
+            patient.addTooth(toothRepository.save(Tooth.builder().number(i).patient(patient).build()));
         }
         patientRepository.save(patient);
         clinic.addPatient(patient);

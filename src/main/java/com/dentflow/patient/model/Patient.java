@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,10 +29,16 @@ public class Patient {
     @NotBlank
     private String email;
     private String phoneNumber;
+
     @JsonIgnore
     @OneToMany
+    @Column(name = "patient_visits")
     private Set<Visit> visits;
+
     @OneToMany
     private Set<Tooth> teeth;
 
+    public void addTooth(Tooth tooth){
+        teeth.add(tooth);
+    }
 }

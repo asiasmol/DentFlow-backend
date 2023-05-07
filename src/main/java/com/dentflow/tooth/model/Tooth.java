@@ -25,13 +25,11 @@ public class Tooth {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long toothId;
 
-    @NotBlank
     private int number;
 
     @OneToMany
     private List<Description> description;
 
-    @NotBlank
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;

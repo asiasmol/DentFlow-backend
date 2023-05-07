@@ -21,7 +21,7 @@ public class UserController {
     }
 
 
-    @GetMapping("")
+    @GetMapping
     public Set<String> getAllUsers(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return userService.getAllEmails(user.getEmail());

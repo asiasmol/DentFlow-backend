@@ -36,6 +36,7 @@ public class Clinic {
     private Set<User> personnel;
     @OneToMany
     @JsonIgnore
+    @Column(name = "clinic_visits")
     private Set<Visit> visits;
     @OneToMany
     @JsonIgnore

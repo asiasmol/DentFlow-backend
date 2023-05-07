@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,6 +29,7 @@ public class PatientRequest {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
+                .teeth(new HashSet<>())
                 .build();
     }
 }
