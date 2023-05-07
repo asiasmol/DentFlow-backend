@@ -32,7 +32,6 @@ public class Patient {
 
     @JsonIgnore
     @OneToMany
-    @Column(name = "patient_visits")
     private Set<Visit> visits;
 
     @OneToMany

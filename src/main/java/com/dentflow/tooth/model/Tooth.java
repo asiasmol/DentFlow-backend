@@ -21,7 +21,6 @@ import java.util.List;
 public class Tooth {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long toothId;
 
@@ -31,10 +30,9 @@ public class Tooth {
     private List<Description> description;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "patient_id")
     private Patient patient;
-
-
 }
 
 
