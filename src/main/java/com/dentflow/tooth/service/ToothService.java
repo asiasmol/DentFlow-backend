@@ -26,11 +26,11 @@ public class ToothService {
         Clinic clinic = userService.getUser(email).getClinics().stream()
                 .filter(c -> Objects.equals(c.getId(), clinicId))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found: "));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Clinic not found: "));
         return clinic.getPatients().stream()
                 .filter(patient -> patient.getPatientId()== patientId)
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found: "))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Patient not found: "))
                 .getTeeth();
 
     }

@@ -6,6 +6,7 @@ import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRepository;
 import com.dentflow.patient.model.PatientRequest;
+import com.dentflow.tooth.model.Tooth;
 import com.dentflow.user.service.UserService;
 import com.dentflow.visit.model.Visit;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,9 @@ public class PatientService {
         Patient patient = PatientRequest.toEntity(request);
         Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> c.getId() == request.getClinicId())
                         .findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
+        for(int i = 1; i <= 32; i++){
+            patient.getTeeth().add(Tooth.builder().number(i).patient(patient).build());
+        }
         patientRepository.save(patient);
         clinic.addPatient(patient);
         clinicRepository.save(clinic);

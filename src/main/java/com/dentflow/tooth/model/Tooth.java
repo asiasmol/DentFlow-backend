@@ -26,9 +26,6 @@ public class Tooth {
     private Long toothId;
 
     @NotBlank
-    private ToothType type;
-
-    @NotBlank
     private int number;
 
     @OneToMany
