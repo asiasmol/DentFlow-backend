@@ -33,6 +33,7 @@ public class User implements UserDetails {
     private String password;
 
     private Set<Role> roles;
+
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Clinic ownedClinic;

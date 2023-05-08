@@ -1,5 +1,6 @@
 package com.dentflow.clinic.service;
 
+import com.dentflow.auth.service.AuthenticationService;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
 import com.dentflow.clinic.model.ClinicRequest;
@@ -33,12 +34,12 @@ public class ClinicService {
     private final UserRepository userRepository;
     private final ClinicRepository clinicRepository;
     private final UserService userService;
+    private final AuthenticationService authService;
 
     public void registerClinic(ClinicRequest clinicRequest, User user) {
         Clinic clinic = ClinicRequest.toEntity(clinicRequest,user);
         clinicRepository.save(clinic);
         user.setOwnedClinic(clinic);
-        user.addRole(Role.OWNER);
         userRepository.save(user);
     }
 
@@ -52,6 +53,8 @@ public class ClinicService {
 //
 //    public void addPatient(long clinicId, long patientId) {
 //    }
+
+
     public Clinic getClinicById(long clinicId) {
         return clinicRepository.findById(clinicId).get();
 

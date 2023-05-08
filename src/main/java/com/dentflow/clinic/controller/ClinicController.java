@@ -1,13 +1,15 @@
 package com.dentflow.clinic.controller;
 
+import com.dentflow.auth.model.AuthenticationResponses;
+import com.dentflow.auth.model.RegisterRequest;
+import com.dentflow.auth.service.AuthenticationService;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.patient.model.Patient;
-import com.dentflow.patient.service.PatientService;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRequest;
-import com.dentflow.visit.service.VisitService;
+import com.dentflow.user.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +20,14 @@ import java.util.Set;
 public class ClinicController {
 
     private final ClinicService clinicService;
+    private final AuthenticationService authService;
+    private final UserService userService;
 
-    public ClinicController(ClinicService clinicService,VisitService visitService,PatientService patientService) {
+
+    public ClinicController(ClinicService clinicService, AuthenticationService authService, UserService service) {
         this.clinicService = clinicService;
+        this.authService = authService;
+        this.userService = service;
     }
 
     @GetMapping("/myClinics")
@@ -31,13 +38,17 @@ public class ClinicController {
 
     @PostMapping
     public void registerClinic(
-            @RequestBody  ClinicRequest clinicRequest,
-            Authentication authentication
-    ) {
-        User user = (User) authentication.getPrincipal();
-        clinicService.registerClinic(clinicRequest,user);
-    }
+            @RequestBody  ClinicRequest clinicRequest) {
 
+        RegisterRequest ownerRegistrationRequest = new RegisterRequest(
+                clinicRequest.getOwnerName(),
+                clinicRequest.getOwnerLastname(),
+                clinicRequest.getEmail(),
+                clinicRequest.getPassword());
+
+        authService.registerOwner(ownerRegistrationRequest);
+        clinicService.registerClinic(clinicRequest, userService.getUser(clinicRequest.getEmail()));
+    }
     @GetMapping("/myClinic")
     public Clinic get(Authentication authentication) {
         User user  = (User) authentication.getPrincipal();

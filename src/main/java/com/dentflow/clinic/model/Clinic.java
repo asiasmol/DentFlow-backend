@@ -21,6 +21,8 @@ public class Clinic {
     private Long id;
 
     private String name;
+    private String city;
+    private String address;
     @NonNull
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore

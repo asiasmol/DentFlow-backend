@@ -21,9 +21,6 @@ public class UserService {
     }
 
 
-//    public void addUser(User user) {
-//        userRepository.save(user);
-//    }
 
     public Set<String> getAllEmails(String email) {
         Set<String> users = userRepository.findAll().stream().filter(u -> u.getOwnedClinic() == null).map(User::getEmail).collect(Collectors.toSet());
@@ -48,11 +45,6 @@ public class UserService {
         return userRepository.findByEmail(email).get().getClinics();
     }
 
-//    public void deleteUser(Long userId) {
-//        User user = userRepository.findById(userId).get();
-//        user.clearClinics();
-//        userRepository.delete(user);
-//    }
     public Clinic getMyClinic(String email) {
         return userRepository.findByEmail(email).get().getOwnedClinic();
     }

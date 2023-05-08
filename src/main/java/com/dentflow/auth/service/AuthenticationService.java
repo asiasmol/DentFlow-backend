@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,17 @@ public class AuthenticationService {
         return AuthenticationResponses.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public void registerOwner(RegisterRequest request){
+        var user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .roles(Set.of(Role.OWNER, Role.USER))
+                .build();
+        repository.save(user);
     }
 
     public AuthenticationResponses authenticate(AuthenticationRequest request) {
