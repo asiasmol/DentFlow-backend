@@ -21,18 +21,36 @@ import java.util.List;
 public class Tooth {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long toothId;
 
     private int number;
 
     @OneToMany
-    private List<Description> description;
+    private List<Description> descriptions;
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    private Boolean forObservation;
+    private Boolean caries;
+    private Boolean secondaryCaries;
+    private Boolean filling;
+    private Boolean prostheticCrown;
+    private Boolean channelsFilledCorrectly;
+    private Boolean channelNotCompleted;
+    private Boolean periapicalChange;
+    private Boolean crownRootInsert;
+    private Boolean supragingivalCalculus;
+    private Boolean subgingivalCalculus;
+    private Boolean impactedTooth;
+    private Boolean noTooth;
+    private Boolean microdonticTooth;
+    private Boolean developmentalDefect;
+    private Boolean pathologicalClash;
 }
 
 

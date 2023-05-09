@@ -33,14 +33,11 @@ public class VisitRequest {
     private static LocalDateTime convertStringtoData(String visitDate, String visitTime){
         System.out.println(visitDate);
         System.out.println(visitTime);
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(visitDate, dateFormatter);
-        DateTimeFormatter timeFormatter;
-
-        if (visitTime.length() == 4) timeFormatter = DateTimeFormatter.ofPattern("H:mm");
-        else timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime time = LocalTime.parse(visitTime, timeFormatter);
+
         return LocalDateTime.of(date, time);
     }
 }

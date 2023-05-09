@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -41,7 +42,8 @@ public class PatientService {
                         .findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
         patientRepository.save(patient);
         for(int i = 1; i <= 32; i++){
-            patient.addTooth(toothRepository.save(Tooth.builder().number(i).patient(patient).build()));
+            patient.addTooth(toothRepository.save(Tooth.builder().number(i).forObservation(false).caries(false).secondaryCaries(false).filling(false).prostheticCrown(false).channelsFilledCorrectly(false).channelNotCompleted(false).periapicalChange(false).crownRootInsert(false).supragingivalCalculus(false).subgingivalCalculus(false).impactedTooth(false).noTooth(false).microdonticTooth(false).developmentalDefect(false).pathologicalClash(false)
+                    .patient(patient).build()));
         }
         patientRepository.save(patient);
         clinic.addPatient(patient);
@@ -59,7 +61,7 @@ public class PatientService {
     public Set<Visit> getPatientVisitHistory(PatientRequest request, String email){
         Patient patient = PatientRequest.toEntity(request);
         Clinic clinic = userService.getUser(email).getClinics().stream()
-                .filter(c -> c.getId() == request.getClinicId()).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
+                .filter(c -> Objects.equals(c.getId(), request.getClinicId())).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Clinic not found"));
         return clinic.getPatients().stream().filter(p -> p == patient).findFirst().get().getVisits();
     }
 
