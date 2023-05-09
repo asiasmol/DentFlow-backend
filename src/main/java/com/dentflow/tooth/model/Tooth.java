@@ -35,13 +35,22 @@ public class Tooth {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    private Boolean forObservation;
     private Boolean caries;
-    private Boolean noTooth;
-    private Boolean cavity;
+    private Boolean secondaryCaries;
     private Boolean filling;
-    private Boolean rootCanal;
-
-
+    private Boolean prostheticCrown;
+    private Boolean channelsFilledCorrectly;
+    private Boolean channelNotCompleted;
+    private Boolean periapicalChange;
+    private Boolean crownRootInsert;
+    private Boolean supragingivalCalculus;
+    private Boolean subgingivalCalculus;
+    private Boolean impactedTooth;
+    private Boolean noTooth;
+    private Boolean microdonticTooth;
+    private Boolean developmentalDefect;
+    private Boolean pathologicalClash;
 }
 
 

@@ -74,7 +74,6 @@ public class ClinicService {
 
     public Set<Patient> getPatients(String email, long clinicId) {
         User user = userService.getUser(email);
-
         return user.getClinics().stream().filter(c -> c.getId() == clinicId).findFirst().orElse(user.getOwnedClinic()).getPatients();
     }
 
