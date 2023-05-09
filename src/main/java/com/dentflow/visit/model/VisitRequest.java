@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisitRequest {
-
+    private Long visitId;
     private Long clinicId;
     private String visitDate;
     private String visitTime;
@@ -31,8 +31,6 @@ public class VisitRequest {
     }
 
     private static LocalDateTime convertStringtoData(String visitDate, String visitTime){
-        System.out.println(visitDate);
-        System.out.println(visitTime);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(visitDate, dateFormatter);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
