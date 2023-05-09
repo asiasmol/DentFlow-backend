@@ -41,7 +41,7 @@ public class PatientService {
                         .findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"));
         patientRepository.save(patient);
         for(int i = 1; i <= 32; i++){
-            patient.addTooth(toothRepository.save(Tooth.builder().number(i).patient(patient).build()));
+            patient.addTooth(toothRepository.save(Tooth.builder().number(i).cavity(false).noTooth(false).rootCanal(false).caries(false).filling(false).patient(patient).build()));
         }
         patientRepository.save(patient);
         clinic.addPatient(patient);

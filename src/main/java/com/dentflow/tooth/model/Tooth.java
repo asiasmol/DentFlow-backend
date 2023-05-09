@@ -28,11 +28,18 @@ public class Tooth {
     private int number;
 
     @OneToMany
-    private List<Description> description;
+    private List<Description> descriptions;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    private Boolean caries;
+    private Boolean noTooth;
+    private Boolean cavity;
+    private Boolean filling;
+    private Boolean rootCanal;
 
 
 }
