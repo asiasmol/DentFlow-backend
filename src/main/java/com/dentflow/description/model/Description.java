@@ -15,7 +15,7 @@ public class Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long descriptionId;
-    @Lob
+    private Long id;
+
     private String description;
 }

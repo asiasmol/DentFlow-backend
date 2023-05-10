@@ -1,13 +1,13 @@
 package com.dentflow.tooth.service;
 
 import com.dentflow.clinic.model.Clinic;
+import com.dentflow.description.model.Description;
+import com.dentflow.description.model.DescriptionRepository;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.tooth.model.Tooth;
 import com.dentflow.tooth.model.ToothRepository;
 import com.dentflow.tooth.model.ToothRequest;
-import com.dentflow.user.model.User;
 import com.dentflow.user.service.UserService;
-import com.dentflow.visit.model.Visit;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,10 +19,12 @@ import java.util.Set;
 public class ToothService {
 
     private final ToothRepository toothRepository;
+    private final DescriptionRepository descriptionRepository;
     private final UserService userService;
 
-    public ToothService(ToothRepository toothRepository, UserService userService) {
+    public ToothService(ToothRepository toothRepository, DescriptionRepository descriptionRepository, UserService userService) {
         this.toothRepository = toothRepository;
+        this.descriptionRepository = descriptionRepository;
         this.userService = userService;
     }
 
@@ -62,6 +64,19 @@ public class ToothService {
         tooth.setMicrodonticTooth(toothRequest.getTooth().getMicrodonticTooth());
         tooth.setDevelopmentalDefect(toothRequest.getTooth().getDevelopmentalDefect());
         tooth.setPathologicalClash(toothRequest.getTooth().getPathologicalClash());
+        toothRepository.save(tooth);
+    }
+
+    public void updateDescription(ToothRequest toothRequest, String email) {
+        Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> Objects.equals(c.getId(), toothRequest.getClinicId())).findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT,"Clinic not found"));
+        Patient patient = clinic.getPatients().stream().filter(p -> p.getPatientId() ==  toothRequest.getPatientId())
+                .findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "Patient not found: "));
+        Tooth tooth =  patient.getTeeth().stream().filter(t -> t.getNumber() ==toothRequest.getTooth().getNumber())
+                .findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "tooth not found: "));
+        Description description = Description.builder().description(toothRequest.getTooth().getDescription()).build();
+        descriptionRepository.save(description);
+        tooth.addDescription(description);
         toothRepository.save(tooth);
     }
 }
