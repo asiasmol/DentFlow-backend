@@ -4,13 +4,11 @@ import com.dentflow.exception.ApiRequestException;
 import com.dentflow.patient.model.PatientRequest;
 import com.dentflow.patient.service.PatientService;
 import com.dentflow.tooth.model.Tooth;
+import com.dentflow.tooth.model.ToothRequest;
 import com.dentflow.tooth.service.ToothService;
 import com.dentflow.user.model.User;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -33,5 +31,10 @@ public class ToothController {
         }
 
         return toothService.getAllToothByPatientId(user.getEmail(), patientRequest.getClinicId(), patientId);
+    }
+    @PatchMapping("/status")
+    public void updateStatus(@RequestBody ToothRequest toothRequest, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        toothService.updateStatus(toothRequest,user.getEmail());
     }
 }
