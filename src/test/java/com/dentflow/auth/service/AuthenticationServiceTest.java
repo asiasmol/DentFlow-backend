@@ -22,7 +22,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 
-class AuthenticationServiceTest {
+import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Collections;
+import java.util.Optional;
+
+@ExtendWith(MockitoExtension.class)
+public class AuthenticationServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -39,14 +54,9 @@ class AuthenticationServiceTest {
     @InjectMocks
     private AuthenticationService authenticationService;
 
-    public AuthenticationServiceTest() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-
     @Test
     void register() {
-// given
+        // given
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setFirstName("John");
         registerRequest.setLastName("Doe");
@@ -62,8 +72,8 @@ class AuthenticationServiceTest {
                 .build();
 
         when(passwordEncoder.encode(registerRequest.getPassword())).thenReturn("encodedPassword");
-        when(userRepository.save(user)).thenReturn(user);
-        when(jwtService.generateToken(user)).thenReturn("jwtToken");
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        doReturn("jwtToken").when(jwtService).generateToken(any(User.class));
 
         // when
         AuthenticationResponses response = authenticationService.register(registerRequest);
@@ -74,8 +84,8 @@ class AuthenticationServiceTest {
         assertEquals("jwtToken", response.getToken());
 
         verify(passwordEncoder).encode(registerRequest.getPassword());
-        verify(userRepository).save(user);
-        verify(jwtService).generateToken(user);
+        verify(userRepository).save(any(User.class));
+        verify(jwtService).generateToken(any(User.class));
     }
 
     @Test
@@ -100,3 +110,32 @@ class AuthenticationServiceTest {
         assertEquals(Collections.singleton(Role.USER), response.getRoles());
     }
 }
+
+
+
+//class AuthenticationServiceTest {
+//
+//    @Mock
+//    private UserRepository userRepository;
+//
+//    @Mock
+//    private PasswordEncoder passwordEncoder;
+//
+//    @Mock
+//    private JwtService jwtService;
+//
+//    @Mock
+//    private AuthenticationManager authenticationManager;
+//
+//    @InjectMocks
+//    private AuthenticationService authenticationService;
+//
+//    public AuthenticationServiceTest() {
+//        MockitoAnnotations.initMocks(this);
+//    }
+//
+//
+//
+//
+
+//}

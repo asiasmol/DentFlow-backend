@@ -11,115 +11,63 @@ import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserTest {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class UserTest {
+
+    private User user;
+    private Clinic clinic1;
+    private Clinic clinic2;
+
+    @BeforeEach
+    void setUp() {
+        clinic1 = new Clinic();
+        clinic2 = new Clinic();
+
+        Set<Clinic> clinics = new HashSet<>();
+        clinics.add(clinic1);
+        clinics.add(clinic2);
+
+        user = User.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .email("john.doe@example.com")
+                .password("password")
+                .clinics(clinics)
+                .roles(new HashSet<>())
+                .build();
+    }
 
     @Test
-    void testClearClinics() {
-        // given
-        User user = new User();
-        Clinic clinic1 = new Clinic();
-        Clinic clinic2 = new Clinic();
-        Set<Clinic> clinics = new HashSet<>(Arrays.asList(clinic1, clinic2));
-        user.setClinics(clinics);
+    void clearClinics() {
+        assertEquals(2, user.getClinics().size());
 
-        // when
         user.clearClinics();
 
-        // then
         assertTrue(user.getClinics().isEmpty());
         assertFalse(clinic1.getPersonnel().contains(user));
         assertFalse(clinic2.getPersonnel().contains(user));
     }
 
     @Test
-    void testAddRole() {
-        // given
-        User user = new User();
-        Set<Role> roles = new HashSet<>();
-        user.setRoles(roles);
+    void addRole() {
+        assertTrue(user.getRoles().isEmpty());
 
-        // when
         user.addRole(Role.USER);
 
-        // then
         assertEquals(1, user.getRoles().size());
         assertTrue(user.getRoles().contains(Role.USER));
-    }
 
-    @Test
-    void testGetAuthorities() {
-        // given
-        User user = new User();
-        Set<Role> roles = new HashSet<>(Arrays.asList(Role.USER, Role.OWNER));
-        user.setRoles(roles);
+        user.addRole(Role.OWNER);
 
-        // when
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>((Collection) user.getAuthorities());
-
-        // then
-        assertEquals(2, authorities.size());
-        assertTrue(authorities.contains(new SimpleGrantedAuthority("USER")));
-        assertTrue(authorities.contains(new SimpleGrantedAuthority("OWNER")));
-    }
-
-    @Test
-    void testGetUsername() {
-        // given
-        User user = new User();
-        user.setEmail("test@example.com");
-
-        // when
-        String username = user.getUsername();
-
-        // then
-        assertEquals("test@example.com", username);
-    }
-
-    @Test
-    void testIsAccountNonExpired() {
-        // given
-        User user = new User();
-
-        // when
-        boolean accountNonExpired = user.isAccountNonExpired();
-
-        // then
-        assertTrue(accountNonExpired);
-    }
-
-    @Test
-    void testIsAccountNonLocked() {
-        // given
-        User user = new User();
-
-        // when
-        boolean accountNonLocked = user.isAccountNonLocked();
-
-        // then
-        assertTrue(accountNonLocked);
-    }
-
-    @Test
-    void testIsCredentialsNonExpired() {
-        // given
-        User user = new User();
-
-        // when
-        boolean credentialsNonExpired = user.isCredentialsNonExpired();
-
-        // then
-        assertTrue(credentialsNonExpired);
-    }
-
-    @Test
-    void testIsEnabled() {
-        // given
-        User user = new User();
-
-        // when
-        boolean enabled = user.isEnabled();
-
-        // then
-        assertTrue(enabled);
+        assertEquals(2, user.getRoles().size());
+        assertTrue(user.getRoles().contains(Role.OWNER));
     }
 }

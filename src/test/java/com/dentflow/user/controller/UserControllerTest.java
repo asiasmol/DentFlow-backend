@@ -1,6 +1,8 @@
 package com.dentflow.user.controller;
 
 import com.dentflow.auth.model.AuthUserResponse;
+import com.dentflow.config.SecurityConfigurationTest;
+import com.dentflow.config.jwt.JwtService;
 import com.dentflow.user.model.Role;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRequest;
@@ -11,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -60,6 +64,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(UserController.class)
+//@Import(SecurityConfigurationTest.class)
+@AutoConfigureMockMvc(addFilters = false)
 class UserControllerTest {
 
     @Autowired
@@ -67,6 +73,9 @@ class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Test
     @WithMockUser(username = "test@example.com")

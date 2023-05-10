@@ -31,10 +31,6 @@ public class ClinicController {
         this.userService = service;
     }
 
-    public ClinicController(ClinicService clinicService) {
-        this.clinicService = clinicService;
-    }
-
     @GetMapping("/myClinics")
     public Set<Clinic> getClinicByUser(Authentication authentication) {
         User user = (User) authentication.getPrincipal();

@@ -65,7 +65,7 @@ class ClinicControllerTest {
         clinic1.setName(clinicName1);
         clinic2.setName(clinicName2);
 
-        clinicController = new ClinicController(clinicService);
+//        clinicController = new ClinicController(clinicService);
         User testUser1 = new User();
         User testUser2 = new User();
     }

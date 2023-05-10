@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "clinics")
@@ -34,8 +35,10 @@ public class Clinic {
             joinColumns = @JoinColumn(name = "clinic_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnore
-    private Set<User> personnel;
+//    @JsonIgnore
+//    private Set<User> personnel;
+    @Builder.Default
+    private Set<User> personnel = new HashSet<>();
     @OneToMany
     @JsonIgnore
     @Column(name = "clinic_visits")
