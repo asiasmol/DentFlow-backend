@@ -59,7 +59,4 @@ public class UserController {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(new AuthUserResponse(user.getEmail(),user.getRoles()));
     }
-
-
-
 }
