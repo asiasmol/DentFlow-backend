@@ -51,6 +51,10 @@ public class Tooth {
     private Boolean microdonticTooth;
     private Boolean developmentalDefect;
     private Boolean pathologicalClash;
+
+    public void addDescription(Description description) {
+        descriptions.add(description);
+    }
 }
 
 

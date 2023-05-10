@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ToothModel {
     private int number;
+    private String description;
     private Boolean forObservation;
     private Boolean caries;
     private Boolean secondaryCaries;
