@@ -1,6 +1,7 @@
 package com.dentflow.clinic.model;
 
 import com.dentflow.user.model.User;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class ClinicRequest {
     private String clinicName;
     private String ownerName;
     private String ownerLastname;
+    @Email
     private String email;
     private String city;
     private String address;

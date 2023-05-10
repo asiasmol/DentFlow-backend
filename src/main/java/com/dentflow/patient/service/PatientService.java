@@ -64,5 +64,7 @@ public class PatientService {
                 .filter(c -> Objects.equals(c.getId(), request.getClinicId())).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Clinic not found"));
         return clinic.getPatients().stream().filter(p -> p == patient).findFirst().get().getVisits();
     }
-
+    public boolean checkIfPatientExist(Long patientId) {
+        return patientRepository.existsById(patientId);
+    }
 }

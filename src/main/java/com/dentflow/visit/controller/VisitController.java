@@ -23,6 +23,7 @@ public class VisitController {
     @GetMapping
     public Set<Visit> getVisitsByClinicId(ClinicRequest clinicRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+
         return visitService.getVisitsByClinicId(user.getEmail(),clinicRequest.getClinicId());
     }
 

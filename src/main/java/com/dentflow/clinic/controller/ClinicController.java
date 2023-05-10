@@ -6,6 +6,7 @@ import com.dentflow.auth.service.AuthenticationService;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRequest;
 import com.dentflow.clinic.service.ClinicService;
+import com.dentflow.exception.ApiRequestException;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRequest;
@@ -68,15 +69,27 @@ public class ClinicController {
     }
 
     @GetMapping("/patients")
-    public Set<Patient> getPatients(Authentication authentication, ClinicRequest request){
+    public Set<Patient> getPatients(Authentication authentication, ClinicRequest clinicRequest){
         User user = (User) authentication.getPrincipal();
-        return clinicService.getPatients(user.getEmail(), request.getClinicId());
+        Long clinicId = clinicRequest.getClinicId();
+
+        if(!clinicService.checkIfClinicExists(clinicId)){
+            throw new ApiRequestException("Cannot find clinic with that id" + clinicId);
+        }
+
+        return clinicService.getPatients(user.getEmail(), clinicId);
     }
 
     @GetMapping("/doctors")
     public Set<User> getDoctors(Authentication authentication, ClinicRequest clinicRequest){
         User user = (User) authentication.getPrincipal();
-        return clinicService.getDoctors(user.getEmail(), clinicRequest.getClinicId());
+        Long clinicId = clinicRequest.getClinicId();
+
+        if(!clinicService.checkIfClinicExists(clinicId)){
+            throw new ApiRequestException("Cannot find clinic with that id" + clinicId);
+        }
+
+        return clinicService.getDoctors(user.getEmail(), clinicId);
     }
 
 

@@ -94,7 +94,10 @@ public class ClinicService {
 
     public Set<User> getDoctors(String email, Long clinicId) {
         return userService.getUser(email).getClinics().stream().filter(clinic -> Objects.equals(clinic.getId(), clinicId))
-                .findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinic not found"))
+                .findFirst().orElse(new Clinic())
                 .getPersonnel().stream().filter(user -> user.getRoles().contains(Role.DOCTOR)).collect(Collectors.toSet());
+    }
+    public boolean checkIfClinicExists(Long clinicId) {
+        return clinicRepository.existsById(clinicId);
     }
 }

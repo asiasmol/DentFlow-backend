@@ -1,5 +1,6 @@
 package com.dentflow.config.jwt;
 
+import com.dentflow.exception.ApiRequestException;
 import com.dentflow.user.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +22,7 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService(){
        return username -> userRepository.findByEmail(username)
-               .orElseThrow(()->new UsernameNotFoundException("User not Found"));
+               .orElseThrow(() -> new ApiRequestException("User not Found"));
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){
