@@ -31,6 +31,7 @@ public class Tooth {
     private List<Description> descriptions;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
