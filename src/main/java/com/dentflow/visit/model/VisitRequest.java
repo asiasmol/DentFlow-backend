@@ -21,12 +21,14 @@ public class VisitRequest {
     private String visitTime;
     private String doctorEmail;
     private Long patientId;
-    private String description;
+    private String doctorDescription;
+    private String receptionistDescription;
 
     public static Visit toEntity(VisitRequest request) {
         return Visit.builder()
                 .visitDate(convertStringtoData(request.getVisitDate(), request.getVisitTime()))
-                .description(request.getDescription())
+                .doctorDescription(request.getDoctorDescription())
+                .receptionistDescription(request.getReceptionistDescription())
                 .build();
     }
 

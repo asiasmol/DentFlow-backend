@@ -32,6 +32,9 @@ public class Visit {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "doctor_description")
+    private String doctorDescription;
+
+    @Column(name = "receptionist_description")
+    private String receptionistDescription;
 }

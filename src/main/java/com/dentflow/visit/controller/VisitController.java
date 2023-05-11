@@ -36,7 +36,7 @@ public class VisitController {
     @PostMapping("/description")
     public void addDescriptionToVisit(@RequestBody VisitRequest visitRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        visitService.saveDescriptionToVisit(visitRequest, user.getEmail());
+        visitService.saveDoctorDescriptionToVisit(visitRequest, user.getEmail());
     }
 
 

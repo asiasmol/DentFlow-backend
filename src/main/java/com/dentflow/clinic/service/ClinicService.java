@@ -47,14 +47,6 @@ public class ClinicService {
         return userService.getAllClinicsWhereWork(email);
     }
 
-//    public List<Patient> getAllPatient(long clinicId) {
-//        return null;
-//    }
-//
-//    public void addPatient(long clinicId, long patientId) {
-//    }
-
-
     public Clinic getClinicById(long clinicId) {
         return clinicRepository.findById(clinicId).get();
 
@@ -80,13 +72,6 @@ public class ClinicService {
         return user.getClinics().stream().filter(c -> c.getId() == clinicId).findFirst().orElse(user.getOwnedClinic()).getPatients();
     }
 
-//    public void deleteClinic(Long clinicId){
-//        clinicRepository.delete(clinicRepository.findById(clinicId).get());
-//    }
-//
-//    public void removeEmployee(Long userId, Long clinicId){
-//        clinicRepository.findById(clinicId).get().removeEmployee(userService.getUser(userId));
-//    }
 
     public Clinic getMyClinic(String email) {
         return userService.getMyClinic(email);
