@@ -68,6 +68,12 @@ public class ClinicController {
         clinicService.addEmployee(user.getEmail(), userRequest);
     }
 
+    @DeleteMapping("/personnel")
+    public void deleteEmployee(@RequestBody UserRequest userRequest, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        clinicService.deleteEmployee(user.getEmail(), userRequest);
+    }
+
     @GetMapping("/patients")
     public Set<Patient> getPatients(Authentication authentication, ClinicRequest clinicRequest){
         User user = (User) authentication.getPrincipal();
