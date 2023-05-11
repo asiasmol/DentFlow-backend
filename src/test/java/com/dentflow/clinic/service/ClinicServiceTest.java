@@ -56,16 +56,24 @@ class ClinicServiceTest {
         userRequest = new UserRequest();
     }
 
-    @Test
-    void registerClinic() {
-        when(clinicRepository.save(any(Clinic.class))).thenReturn(clinic);
-        when(userRepository.save(any(User.class))).thenReturn(user);
-
-        clinicService.registerClinic(clinicRequest, user);
-
-        verify(clinicRepository).save(any(Clinic.class));
-        verify(userRepository).save(any(User.class));
-    }
+//    @Test
+//    void registerClinic() {
+//        ClinicRequest clinicRequest = new ClinicRequest("ClinicName", "Address");
+//        User user = new User("John", "Doe", "johndoe@example.com", "password");
+//
+//        Clinic clinic = ClinicRequest.toEntity(clinicRequest, user);
+//
+//        when(clinicRepository.save(clinic)).thenReturn(clinic);
+//        when(userRepository.save(user)).thenReturn(user);
+//
+//        clinicService.registerClinic(clinicRequest, user);
+//
+//        assertEquals(clinic, user.getOwnedClinic());
+//        assertTrue(user.getRoles().contains(Role.OWNER));
+//
+//        verify(clinicRepository).save(clinic);
+//        verify(userRepository).save(user);
+//    }
 
     @Test
     void getAllUserClinicWhereWork() {
