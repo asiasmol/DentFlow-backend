@@ -42,4 +42,14 @@ public class ToothController {
         User user = (User) authentication.getPrincipal();
         toothService.updateDescription(toothRequest,user.getEmail());
     }
+    @PatchMapping("/status")
+    public void updateStatus(@RequestBody ToothRequest toothRequest, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        toothService.updateStatus(toothRequest,user.getEmail());
+    }
+    @PatchMapping("/description")
+    public void updateDescription(@RequestBody ToothRequest toothRequest, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        toothService.updateDescription(toothRequest,user.getEmail());
+    }
 }
