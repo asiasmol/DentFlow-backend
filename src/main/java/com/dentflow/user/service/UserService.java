@@ -21,7 +21,6 @@ public class UserService {
     }
 
 
-
     public Set<String> getAllEmails(String email) {
         Set<String> users = userRepository.findAll().stream().filter(u -> u.getOwnedClinic() == null).map(User::getEmail).collect(Collectors.toSet());
         users.remove(email);
@@ -37,7 +36,6 @@ public class UserService {
         User user = getUser(email);
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
         userRepository.save(user);
     }
 
