@@ -49,12 +49,12 @@ public class VisitService {
         clinicRepository.save(clinic);
     }
 
-    public void saveDescriptionToVisit(VisitRequest visitRequest, String email){
+    public void saveDoctorDescriptionToVisit(VisitRequest visitRequest, String email){
         Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> Objects.equals(c.getId(), visitRequest.getClinicId())).findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT,"Clinic not found"));
         Visit visit = clinic.getVisits().stream().filter(v -> Objects.equals(v.getId(), visitRequest.getVisitId())).findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Visit not found"));
-        visit.setDescription(visitRequest.getDescription());
+        visit.setDoctorDescription(visitRequest.getDoctorDescription());
         visitRepository.save(visit);
     }
 }

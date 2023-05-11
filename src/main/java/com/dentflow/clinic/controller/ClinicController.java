@@ -78,11 +78,9 @@ public class ClinicController {
     public Set<Patient> getPatients(Authentication authentication, ClinicRequest clinicRequest){
         User user = (User) authentication.getPrincipal();
         Long clinicId = clinicRequest.getClinicId();
-
         if(!clinicService.checkIfClinicExists(clinicId)){
             throw new ApiRequestException("Cannot find clinic with that id" + clinicId);
         }
-
         return clinicService.getPatients(user.getEmail(), clinicId);
     }
 

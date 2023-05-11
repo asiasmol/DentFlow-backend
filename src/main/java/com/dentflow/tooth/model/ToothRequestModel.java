@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ToothModel {
+public class ToothRequestModel {
     private int number;
     private String description;
     private Boolean forObservation;
