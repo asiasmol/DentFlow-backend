@@ -62,7 +62,13 @@ public class ClinicService {
         clinicRepository.save(clinic);
     }
 
-
+    public void deleteEmployee(String myEmail, UserRequest userRequest) {
+        Clinic clinic = userService.getUser(myEmail).getOwnedClinic();
+        String workerEmail = userRequest.getEmail();
+        User user= userService.getUser(workerEmail);
+        clinic.getPersonnel().remove(user);
+        clinicRepository.save(clinic);
+    }
     public Set<User> getPersonnel(String email) {
         return getMyClinic(email).getPersonnel();
     }
