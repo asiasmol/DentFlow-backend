@@ -52,11 +52,11 @@ public class PatientService {
         return patientRepository.findById(patientId).get();
     }
 
-    public Set<Visit> getPatientVisitHistory(PatientRequest request, String email){
-        Patient patient = PatientRequest.toEntity(request);
+    public Set<Visit> getPatientVisitHistory(Long clinicId, Long patientId, String email){
+//        Patient patient = PatientRequest.toEntity(request);
         Clinic clinic = userService.getUser(email).getClinics().stream()
-                .filter(c -> Objects.equals(c.getId(), request.getClinicId())).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Clinic not found"));
-        return clinic.getPatients().stream().filter(p -> p == patient).findFirst().get().getVisits();
+                .filter(c -> Objects.equals(c.getId(), clinicId)).findFirst().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Clinic not found"));
+        return clinic.getPatients().stream().filter(p -> p.getPatientId() == patientId).findFirst().get().getVisits();
     }
     public boolean checkIfPatientExist(Long patientId) {
         return patientRepository.existsById(patientId);

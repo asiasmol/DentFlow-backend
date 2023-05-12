@@ -33,14 +33,14 @@ public class PatientController {
     }
 
     @GetMapping
-    public Set<Visit> getVisitHistory(@RequestBody PatientRequest request, Authentication authentication){
+    public Set<Visit> getVisitHistory(@RequestParam Long patientId, @RequestParam Long clinicId ,Authentication authentication){
         User user = (User) authentication.getPrincipal();
-        Long patientId = request.getPatientId();
+
 
         if(!patientService.checkIfPatientExist(patientId)){
             throw new ApiRequestException("Cannot find patient with that id: " + patientId);
         }
 
-        return patientService.getPatientVisitHistory(request, user.getEmail());
+        return patientService.getPatientVisitHistory(clinicId, patientId, user.getEmail());
     }
 }
