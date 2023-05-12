@@ -24,7 +24,6 @@ public class PatientService {
     private final PatientRepository patientRepository;
     private final ClinicRepository clinicRepository;
     private final ToothRepository toothRepository;
-    private final ClinicService clinicService;
     private final UserService userService;
 
 
@@ -32,7 +31,6 @@ public class PatientService {
         this.patientRepository = patientRepository;
         this.clinicRepository = clinicRepository;
         this.toothRepository = toothRepository;
-        this.clinicService = clinicService;
         this.userService = userService;
     }
 
@@ -52,10 +50,6 @@ public class PatientService {
 
     public Patient getPatient(long patientId) {
         return patientRepository.findById(patientId).get();
-    }
-
-    public List<Patient> getAllPatientsFromClinic(long clinicId) {
-       return null;
     }
 
     public Set<Visit> getPatientVisitHistory(PatientRequest request, String email){

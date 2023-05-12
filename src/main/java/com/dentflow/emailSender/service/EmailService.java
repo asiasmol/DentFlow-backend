@@ -38,7 +38,7 @@ public class EmailService {
         javaMailSender.send(mail);
     }
 
-    public void CreteToken(String email) {
+    public void CreteResetPasswordToken(String email) {
         String token = UUID.randomUUID().toString();
         resetTokenRepository.save(ResetToken.builder().token(token).email(email).build());
 //        // Wysyłanie maila z linkiem resetującym hasło
@@ -56,4 +56,6 @@ public class EmailService {
         userRepository.save(user);
         resetTokenRepository.delete(resetToken);
     }
+
+
 }

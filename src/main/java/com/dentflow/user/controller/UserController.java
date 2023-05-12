@@ -22,11 +22,10 @@ public class UserController {
     }
 
     @GetMapping
-    public Set<String> getAllUsers(Authentication authentication) {
+    public Set<String> getAllUsersEmails(Authentication authentication) {
         if(authentication == null) {
             throw new ApiRequestException("Your token has expired");
         }
-
         User user = (User) authentication.getPrincipal();
         return userService.getAllEmails(user.getEmail());
     }

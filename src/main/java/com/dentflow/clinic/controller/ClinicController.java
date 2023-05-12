@@ -1,6 +1,4 @@
 package com.dentflow.clinic.controller;
-
-import com.dentflow.auth.model.AuthenticationResponses;
 import com.dentflow.auth.model.RegisterRequest;
 import com.dentflow.auth.service.AuthenticationService;
 import com.dentflow.clinic.model.Clinic;

@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,6 +27,7 @@ public class Patient {
     private String firstName;
     @NotBlank
     private String lastName;
+
     @Email
     private String email;
     @NotBlank

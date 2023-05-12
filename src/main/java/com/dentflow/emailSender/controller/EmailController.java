@@ -1,12 +1,13 @@
 package com.dentflow.emailSender.controller;
 
-import com.dentflow.emailSender.model.ResetToken;
 import com.dentflow.emailSender.model.ResetTokenRequest;
 import com.dentflow.emailSender.service.EmailService;
+import com.dentflow.user.model.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/resetPassword")
+@RequestMapping("/api")
 public class EmailController {
     private final EmailService emailService;
 
@@ -14,12 +15,12 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @PatchMapping
+    @PatchMapping("/resetPassword")
     public void ResetPassword(@RequestBody ResetTokenRequest request) {
         emailService.ResetPassword(request);
     }
-    @PostMapping
+    @PostMapping("/resetPassword")
     public void CreateToken( @RequestBody ResetTokenRequest request) {
-        emailService.CreteToken(request.getEmail());
+        emailService.CreteResetPasswordToken(request.getEmail());
     }
 }
