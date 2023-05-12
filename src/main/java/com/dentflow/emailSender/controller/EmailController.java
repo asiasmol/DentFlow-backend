@@ -20,7 +20,16 @@ public class EmailController {
         emailService.ResetPassword(request);
     }
     @PostMapping("/resetPassword")
-    public void CreateToken( @RequestBody ResetTokenRequest request) {
+    public void CreatePasswordToken( @RequestBody ResetTokenRequest request) {
         emailService.CreteResetPasswordToken(request.getEmail());
+    }
+    @PostMapping("/resetEmail")
+    public void CreateEmailToken( Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        emailService.CreteResetEmailToken(user.getEmail());
+    }
+    @PatchMapping("/resetEmail")
+    public void ResetEmail(@RequestBody ResetTokenRequest request) {
+        emailService.ResetEmail(request);
     }
 }

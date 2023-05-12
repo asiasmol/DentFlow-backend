@@ -48,7 +48,15 @@ public class EmailService {
         sendEmail(email, subject, body);
     }
 
-
+    public void CreteResetEmailToken(String email) {
+        String token = UUID.randomUUID().toString();
+        resetTokenRepository.save(ResetToken.builder().token(token).email(email).build());
+//        // Wysyłanie maila z linkiem resetującym hasło
+        String resetPasswordUrl = "http://localhost:3000/reset-email?token=" + token;
+        String subject = "Zmiana Maila";
+        String body = "Aby Zmienić maila kliknij w poniższy link:\n" + resetPasswordUrl;
+        sendEmail(email, subject, body);
+    }
     public void ResetPassword(ResetTokenRequest request) {
         ResetToken resetToken = resetTokenRepository.findByToken(request.getToken()).orElseThrow(() -> new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "valid token "));
         User user = userService.getUser(resetToken.getEmail());
@@ -58,4 +66,16 @@ public class EmailService {
     }
 
 
+    public void ResetEmail(ResetTokenRequest request) {
+        ResetToken resetToken = resetTokenRepository.findByToken(request.getToken())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "valid token "));
+        User user = userService.getUser(resetToken.getEmail());
+        User takenUser =userService.getUser(request.getEmail());
+        if (takenUser != null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        user.setEmail(request.getEmail());
+        userRepository.save(user);
+        resetTokenRepository.delete(resetToken);
+    }
 }

@@ -8,11 +8,13 @@ import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.model.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.Set;
@@ -62,7 +64,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponses.builder()
                 .token(jwtToken)
