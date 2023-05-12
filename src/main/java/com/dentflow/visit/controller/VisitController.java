@@ -33,10 +33,15 @@ public class VisitController {
         visitService.addVisitsToClinic(visitRequest, user.getEmail());
     }
 
-    @PostMapping("/description")
-    public void addDescriptionToVisit(@RequestBody VisitRequest visitRequest, Authentication authentication) {
+    @PostMapping("/doctorDescription")
+    public void addDoctorDescriptionToVisit(@RequestBody VisitRequest visitRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         visitService.saveDoctorDescriptionToVisit(visitRequest, user.getEmail());
+    }
+    @PostMapping("/ReceptionistDescription")
+    public void addReceptionistDescriptionToVisit(@RequestBody VisitRequest visitRequest, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        visitService.saveReceptionistDescriptionToVisitToVisit(visitRequest, user.getEmail());
     }
 
 

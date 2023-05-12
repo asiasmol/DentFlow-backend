@@ -57,4 +57,13 @@ public class VisitService {
         visit.setDoctorDescription(visitRequest.getDoctorDescription());
         visitRepository.save(visit);
     }
+
+    public void saveReceptionistDescriptionToVisitToVisit(VisitRequest visitRequest, String email) {
+        Clinic clinic = userService.getUser(email).getClinics().stream().filter(c -> Objects.equals(c.getId(), visitRequest.getClinicId())).findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT,"Clinic not found"));
+        Visit visit = clinic.getVisits().stream().filter(v -> Objects.equals(v.getId(), visitRequest.getVisitId())).findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Visit not found"));
+        visit.setReceptionistDescription(visitRequest.getReceptionistDescription());
+        visitRepository.save(visit);
+    }
 }
