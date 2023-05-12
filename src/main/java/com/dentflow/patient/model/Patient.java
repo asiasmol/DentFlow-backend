@@ -5,9 +5,11 @@ import com.dentflow.tooth.model.Tooth;
 import com.dentflow.visit.model.Visit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,14 +28,17 @@ public class Patient {
     private String firstName;
     @NotBlank
     private String lastName;
-    @NotBlank
+    @Email
     private String email;
+    @NotBlank
     private String phoneNumber;
-
+    @NotBlank
+    private String pesel;
+    @NotBlank
+    private LocalDate birthDate;
     @JsonIgnore
     @OneToMany
     private Set<Visit> visits;
-
     @OneToMany
     private Set<Tooth> teeth;
 
