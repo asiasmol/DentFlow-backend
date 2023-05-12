@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
 @Data
@@ -20,7 +22,7 @@ public class PatientRequest {
     private String firstName;
     private String lastName;
     private String pesel;
-    private LocalDate birthDate;
+    private String birthDate;
     private String phoneNumber;
     private String email;
     public static Patient toEntity(PatientRequest request) {
@@ -29,9 +31,13 @@ public class PatientRequest {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .pesel(request.getPesel())
-                .birthDate(request.getBirthDate())
+                .birthDate(convertStringtoData(request.getBirthDate()))
                 .phoneNumber(request.getPhoneNumber())
                 .teeth(new HashSet<>())
                 .build();
+    }
+    private static LocalDate convertStringtoData(String visitDate) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return LocalDate.parse(visitDate, dateFormatter);
     }
 }

@@ -34,7 +34,7 @@ public class Patient {
     private String phoneNumber;
     @NotBlank
     private String pesel;
-    @NotBlank
+
     private LocalDate birthDate;
     @JsonIgnore
     @OneToMany
