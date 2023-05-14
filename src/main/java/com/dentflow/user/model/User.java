@@ -1,6 +1,8 @@
 package com.dentflow.user.model;
 
 import com.dentflow.clinic.model.Clinic;
+import com.dentflow.hoursOfAvailability.model.HoursOfAvailability;
+import com.dentflow.patient.model.Patient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,8 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -32,7 +33,15 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
-    private Set<Role> roles;
+    private Set<Role> roles ;
+
+    @OneToMany(mappedBy = "user")
+    @Column(name = "user_hours")
+    private Set<HoursOfAvailability> hoursOfAvailability;
+
+    @OneToMany(mappedBy = "myUserAccount")
+    @Column(name = "user_accounts")
+    private Set<Patient> myPatientsAccounts;
 
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
@@ -82,4 +91,10 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void addMyPatientsAccount(Patient myPatientAccount) {
+        this.myPatientsAccounts.add(myPatientAccount);
+    }
+
+
 }

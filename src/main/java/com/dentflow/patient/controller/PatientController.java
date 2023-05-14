@@ -1,6 +1,5 @@
 package com.dentflow.patient.controller;
 
-import com.dentflow.clinic.model.Clinic;
 import com.dentflow.exception.ApiRequestException;
 import com.dentflow.patient.model.Patient;
 import com.dentflow.patient.model.PatientRequest;
@@ -24,7 +23,7 @@ public class PatientController {
     @GetMapping("/getPatient")
     public Patient getPatientFromClinic(
             @PathVariable long patientId){
-        return patientService.getPatient(patientId);
+        return patientService.getPatientById(patientId);
     }
     @PostMapping
     public void registerPatient(@RequestBody PatientRequest request, Authentication authentication) {

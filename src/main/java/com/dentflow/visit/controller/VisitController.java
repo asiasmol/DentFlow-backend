@@ -2,6 +2,7 @@ package com.dentflow.visit.controller;
 
 
 import com.dentflow.clinic.model.ClinicRequest;
+import com.dentflow.exception.ApiRequestException;
 import com.dentflow.user.model.User;
 import com.dentflow.visit.model.Visit;
 import com.dentflow.visit.model.VisitRequest;
@@ -26,7 +27,11 @@ public class VisitController {
 
         return visitService.getVisitsByClinicId(user.getEmail(),clinicRequest.getClinicId());
     }
-
+    @GetMapping("/doctor")
+    public Set<Visit> getDocotrVisitsByClinicId(ClinicRequest clinicRequest, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return visitService.getDoctorVisitsByClinicId(user.getEmail(),clinicRequest.getClinicId());
+    }
     @PostMapping
     public void addVisitsByClinicId(@RequestBody VisitRequest visitRequest, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -43,7 +48,14 @@ public class VisitController {
         User user = (User) authentication.getPrincipal();
         visitService.saveReceptionistDescriptionToVisitToVisit(visitRequest, user.getEmail());
     }
-
+    @GetMapping("/myVisits")
+    public Set<Visit> getMyVisits(Authentication authentication) {
+        if(authentication == null) {
+            throw new ApiRequestException("Your token has expired");
+        }
+        User user = (User) authentication.getPrincipal();
+        return visitService.getMyVisits(user.getEmail());
+    }
 
 
 }

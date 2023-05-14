@@ -3,6 +3,8 @@ package com.dentflow.emailSender.service;
 import com.dentflow.emailSender.model.ResetToken;
 import com.dentflow.emailSender.model.ResetTokenRepository;
 import com.dentflow.emailSender.model.ResetTokenRequest;
+import com.dentflow.patient.model.Patient;
+import com.dentflow.patient.model.PatientRepository;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRepository;
 import com.dentflow.user.service.UserService;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Set;
 import java.util.UUID;
 @Service
 public class EmailService {
@@ -20,12 +23,14 @@ public class EmailService {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
     private final ResetTokenRepository resetTokenRepository;
 
-    public EmailService(JavaMailSender javaMailSender, PasswordEncoder passwordEncoder, UserService userService, UserRepository userRepository, ResetTokenRepository resetTokenRepository) {
+    public EmailService(JavaMailSender javaMailSender, PasswordEncoder passwordEncoder, UserService userService, UserRepository userRepository, PatientRepository patientRepository, ResetTokenRepository resetTokenRepository) {
         this.javaMailSender = javaMailSender;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.patientRepository = patientRepository;
         this.resetTokenRepository = resetTokenRepository;
         this.userService = userService;
     }
@@ -76,6 +81,11 @@ public class EmailService {
         }
         user.setEmail(request.getEmail());
         userRepository.save(user);
+        Set<Patient> myPatientsAccounts =  user.getMyPatientsAccounts();
+        myPatientsAccounts.forEach(myPatientsAccount->{
+            myPatientsAccount.setEmail(request.getEmail());
+            patientRepository.save(myPatientsAccount);
+        });
         resetTokenRepository.delete(resetToken);
     }
 }

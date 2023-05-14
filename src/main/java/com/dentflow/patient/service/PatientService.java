@@ -14,9 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientService {
@@ -43,12 +43,13 @@ public class PatientService {
             patient.addTooth(toothRepository.save(Tooth.builder().number(i).forObservation(false).caries(false).secondaryCaries(false).filling(false).prostheticCrown(false).channelsFilledCorrectly(false).channelNotCompleted(false).periapicalChange(false).crownRootInsert(false).supragingivalCalculus(false).subgingivalCalculus(false).impactedTooth(false).noTooth(false).microdonticTooth(false).developmentalDefect(false).pathologicalClash(false)
                     .patient(patient).build()));
         }
+        patient.setMyClinic(clinic);
         patientRepository.save(patient);
         clinic.addPatient(patient);
         clinicRepository.save(clinic);
     }
 
-    public Patient getPatient(long patientId) {
+    public Patient getPatientById(long patientId) {
         return patientRepository.findById(patientId).get();
     }
 

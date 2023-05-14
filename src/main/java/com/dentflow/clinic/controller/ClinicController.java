@@ -19,14 +19,11 @@ import java.util.Set;
 public class ClinicController {
 
     private final ClinicService clinicService;
-    private final AuthenticationService authService;
-    private final UserService userService;
 
 
-    public ClinicController(ClinicService clinicService, AuthenticationService authService, UserService service) {
+
+    public ClinicController(ClinicService clinicService) {
         this.clinicService = clinicService;
-        this.authService = authService;
-        this.userService = service;
     }
 
     @GetMapping("/myClinics")
@@ -38,15 +35,7 @@ public class ClinicController {
     @PostMapping
     public void registerClinic(
             @RequestBody  ClinicRequest clinicRequest) {
-
-        RegisterRequest ownerRegistrationRequest = new RegisterRequest(
-                clinicRequest.getOwnerName(),
-                clinicRequest.getOwnerLastname(),
-                clinicRequest.getEmail(),
-                clinicRequest.getPassword());
-
-        authService.registerOwner(ownerRegistrationRequest);
-        clinicService.registerClinic(clinicRequest, userService.getUser(clinicRequest.getEmail()));
+        clinicService.registerClinic(clinicRequest);
     }
     @GetMapping("/myClinic")
     public Clinic get(Authentication authentication) {

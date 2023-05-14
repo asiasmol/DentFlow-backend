@@ -1,5 +1,6 @@
 package com.dentflow.clinic.service;
 
+import com.dentflow.auth.model.RegisterRequest;
 import com.dentflow.auth.service.AuthenticationService;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
@@ -22,6 +23,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,7 +39,15 @@ public class ClinicService {
     private final UserService userService;
     private final AuthenticationService authService;
 
-    public void registerClinic(ClinicRequest clinicRequest, User user) {
+    public void registerClinic(ClinicRequest clinicRequest) {
+        RegisterRequest ownerRegistrationRequest = new RegisterRequest(
+                clinicRequest.getOwnerName(),
+                clinicRequest.getOwnerLastname(),
+                clinicRequest.getEmail(),
+                clinicRequest.getPassword());
+
+        authService.registerOwner(ownerRegistrationRequest);
+        User user = userService.getUser(clinicRequest.getEmail());
         Clinic clinic = ClinicRequest.toEntity(clinicRequest,user);
         clinicRepository.save(clinic);
         user.setOwnedClinic(clinic);
@@ -67,6 +78,8 @@ public class ClinicService {
         String workerEmail = userRequest.getEmail();
         User user= userService.getUser(workerEmail);
         clinic.getPersonnel().remove(user);
+        user.setRoles(new HashSet<>(Collections.singletonList(Role.USER)));
+        userRepository.save(user);
         clinicRepository.save(clinic);
     }
     public Set<User> getPersonnel(String email) {

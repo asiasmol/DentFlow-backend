@@ -1,8 +1,10 @@
 package com.dentflow.patient.model;
 
 
+import com.dentflow.clinic.model.Clinic;
 import com.dentflow.tooth.model.Tooth;
 import com.dentflow.visit.model.Visit;
+import com.dentflow.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -23,6 +25,17 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long patientId;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User myUserAccount;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "clinic_id")
+    private Clinic myClinic;
+
     @NotBlank
     private String firstName;
     @NotBlank
@@ -44,5 +57,9 @@ public class Patient {
 
     public void addTooth(Tooth tooth){
         teeth.add(tooth);
+    }
+
+    public void addVisit(Visit visit) {
+        visits.add(visit);
     }
 }

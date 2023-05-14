@@ -17,9 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.gen5.api.Assertions.assertThrows;
@@ -83,7 +81,7 @@ public class VisitServiceTest {
     public void testAddVisitsToClinic() {
         when(userService.getUser(anyString())).thenReturn(user);
         when(userService.getUser("doctor@example.com")).thenReturn(user);
-        when(patientService.getPatient(anyLong())).thenReturn(patient);
+        when(patientService.getPatientById(anyLong())).thenReturn(patient);
         when(visitRepository.save(any(Visit.class))).thenReturn(visit);
         when(clinicRepository.save(any(Clinic.class))).thenReturn(clinic);
 
