@@ -5,28 +5,17 @@ import com.dentflow.auth.service.AuthenticationService;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRepository;
 import com.dentflow.clinic.model.ClinicRequest;
+import com.dentflow.clinic.model.ClinicResponse;
 import com.dentflow.patient.model.Patient;
-import com.dentflow.user.model.Role;
-import com.dentflow.user.model.User;
-import com.dentflow.user.model.UserRepository;
-import com.dentflow.user.model.UserRequest;
+import com.dentflow.user.model.*;
 import com.dentflow.user.service.UserService;
-import com.dentflow.visit.model.Visit;
-import com.dentflow.visit.model.VisitRequest;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import com.dentflow.visit.model.VisitResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,12 +85,36 @@ public class ClinicService {
         return userService.getMyClinic(email);
     }
 
-    public Set<User> getDoctors(String email, Long clinicId) {
+    public Set<User> getDoctorsfromMyClinic(String email, Long clinicId) {
         return userService.getUser(email).getClinics().stream().filter(clinic -> Objects.equals(clinic.getId(), clinicId))
                 .findFirst().orElse(new Clinic())
                 .getPersonnel().stream().filter(user -> user.getRoles().contains(Role.DOCTOR)).collect(Collectors.toSet());
     }
     public boolean checkIfClinicExists(Long clinicId) {
         return clinicRepository.existsById(clinicId);
+    }
+
+    public Set<ClinicResponse> getAllClinic() {
+        return clinicRepository.findAll().stream().map(clinic -> ClinicResponse
+                .builder().id(clinic.getId()).city(clinic.getCity()).address(clinic.getAddress()).name(clinic.getName())
+                .build()).collect(Collectors.toSet());
+    }
+
+    public Set<DoctorResponse> getDoctorsByClinicId(Long clinicId) {
+        return clinicRepository.findById(clinicId).get().getPersonnel()
+                .stream().filter(personel->personel.getRoles()
+                        .contains(Role.DOCTOR)).map(user -> DoctorResponse.builder().firstName(user.getFirstName()).email(user.getEmail()).lastName(user.getLastName()).hoursOfAvailability(user.getHoursOfAvailability()).build()).collect(Collectors.toSet());
+    }
+
+    public Set<VisitResponse> getVisitsByClinicId(Long clinicId) {
+        return clinicRepository.findById(clinicId).get().getVisits()
+                .stream().map(visit -> VisitResponse.builder().lengthOfTheVisit(visit.getLengthOfTheVisit()).visitDate(visit.getVisitDate())
+                        .doctor(DoctorResponse
+                                .builder()
+                                .firstName(visit.getDoctor().getFirstName())
+                                .lastName(visit.getDoctor().getLastName())
+                                .email(visit.getDoctor().getEmail())
+                                .hoursOfAvailability(visit.getDoctor().getHoursOfAvailability())
+                                .build()).build()).collect(Collectors.toSet());
     }
 }

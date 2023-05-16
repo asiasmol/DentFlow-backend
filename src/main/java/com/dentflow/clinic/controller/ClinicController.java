@@ -1,14 +1,14 @@
 package com.dentflow.clinic.controller;
-import com.dentflow.auth.model.RegisterRequest;
-import com.dentflow.auth.service.AuthenticationService;
 import com.dentflow.clinic.model.Clinic;
 import com.dentflow.clinic.model.ClinicRequest;
+import com.dentflow.clinic.model.ClinicResponse;
 import com.dentflow.clinic.service.ClinicService;
 import com.dentflow.exception.ApiRequestException;
 import com.dentflow.patient.model.Patient;
+import com.dentflow.user.model.DoctorResponse;
 import com.dentflow.user.model.User;
 import com.dentflow.user.model.UserRequest;
-import com.dentflow.user.service.UserService;
+import com.dentflow.visit.model.VisitResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +31,10 @@ public class ClinicController {
         User user = (User) authentication.getPrincipal();
         return clinicService.getAllUserClinicWhereWork(user.getEmail());
     }
-
+    @GetMapping
+    public Set<ClinicResponse> getAllClinic() {
+        return clinicService.getAllClinic();
+    }
     @PostMapping
     public void registerClinic(
             @RequestBody  ClinicRequest clinicRequest) {
@@ -71,8 +74,8 @@ public class ClinicController {
         return clinicService.getPatients(user.getEmail(), clinicId);
     }
 
-    @GetMapping("/doctors")
-    public Set<User> getDoctors(Authentication authentication, ClinicRequest clinicRequest){
+    @GetMapping("/myDoctors")
+    public Set<User> getDoctorsfromMyClinic(Authentication authentication, ClinicRequest clinicRequest){
         User user = (User) authentication.getPrincipal();
         Long clinicId = clinicRequest.getClinicId();
 
@@ -80,22 +83,28 @@ public class ClinicController {
             throw new ApiRequestException("Cannot find clinic with that id" + clinicId);
         }
 
-        return clinicService.getDoctors(user.getEmail(), clinicId);
+        return clinicService.getDoctorsfromMyClinic(user.getEmail(), clinicId);
+    }
+    @GetMapping("/doctors")
+    public Set<DoctorResponse> getDoctorsfromClinic(ClinicRequest clinicRequest){
+        Long clinicId = clinicRequest.getClinicId();
+
+        if(!clinicService.checkIfClinicExists(clinicId)){
+            throw new ApiRequestException("Cannot find clinic with that id" + clinicId);
+        }
+
+        return clinicService.getDoctorsByClinicId( clinicId);
+    }
+    @GetMapping("/visits")
+    public Set<VisitResponse> getVisitsfromClinic(ClinicRequest clinicRequest){
+        Long clinicId = clinicRequest.getClinicId();
+
+        if(!clinicService.checkIfClinicExists(clinicId)){
+            throw new ApiRequestException("Cannot find clinic with that id" + clinicId);
+        }
+
+        return clinicService.getVisitsByClinicId( clinicId);
     }
 
-
-//    @Transactional
-//    @DeleteMapping("/{clinicId}")
-//    public void deleteClinic(@PathVariable Long clinicId){
-//        clinicService.deleteClinic(clinicId);
-//    }
-//
-//    @Transactional
-//    @DeleteMapping("/{clinicId}/personnel/{userId}")
-//    public void removeUser(
-//            @PathVariable("clinicId") Long clinicId,
-//            @PathVariable("userId") Long userId){
-//        clinicService.removeEmployee(userId, clinicId);
-//    }
 
 }

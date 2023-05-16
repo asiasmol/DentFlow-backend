@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -150,7 +149,7 @@ class ClinicServiceTest {
         when(userService.getUser(any(String.class))).thenReturn(user);
 
         Set<User> doctors = clinic.getPersonnel().stream().filter(user -> user.getRoles().contains(Role.DOCTOR)).collect(Collectors.toSet());
-        Set<User> result = clinicService.getDoctors("test@example.com", clinic.getId());
+        Set<User> result = clinicService.getDoctorsfromMyClinic("test@example.com", clinic.getId());
 
         assertEquals(doctors, result);
     }
@@ -160,6 +159,6 @@ class ClinicServiceTest {
         user.setClinics(Set.of(clinic));
         when(userService.getUser(any(String.class))).thenReturn(user);
 
-        assertThrows(ResponseStatusException.class, () -> clinicService.getDoctors("test@example.com", 999L));
+        assertThrows(ResponseStatusException.class, () -> clinicService.getDoctorsfromMyClinic("test@example.com", 999L));
     }
     }

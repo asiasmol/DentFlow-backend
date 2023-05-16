@@ -23,9 +23,13 @@ public class VisitRequest {
     private Long patientId;
     private String doctorDescription;
     private String receptionistDescription;
+    private Type type;
+    private int lengthOfTheVisit;
 
     public static Visit toEntity(VisitRequest request) {
         return Visit.builder()
+                .type(request.getType())
+                .lengthOfTheVisit(request.getLengthOfTheVisit())
                 .visitDate(convertStringtoData(request.getVisitDate(), request.getVisitTime()))
                 .doctorDescription(request.getDoctorDescription())
                 .receptionistDescription(request.getReceptionistDescription())
