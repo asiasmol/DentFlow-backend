@@ -44,4 +44,5 @@ public class VisitRequest {
 
         return LocalDateTime.of(date, time);
     }
+
 }

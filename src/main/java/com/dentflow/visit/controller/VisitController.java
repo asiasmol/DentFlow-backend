@@ -6,6 +6,7 @@ import com.dentflow.exception.ApiRequestException;
 import com.dentflow.user.model.User;
 import com.dentflow.visit.model.Visit;
 import com.dentflow.visit.model.VisitRequest;
+import com.dentflow.visit.model.VisitResponse;
 import com.dentflow.visit.service.VisitService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -49,13 +50,17 @@ public class VisitController {
         visitService.saveReceptionistDescriptionToVisitToVisit(visitRequest, user.getEmail());
     }
     @GetMapping("/myVisits")
-    public Set<Visit> getMyVisits(Authentication authentication) {
+    public Set<VisitResponse> getMyVisits(Authentication authentication) {
         if(authentication == null) {
             throw new ApiRequestException("Your token has expired");
         }
         User user = (User) authentication.getPrincipal();
         return visitService.getMyVisits(user.getEmail());
     }
-
+    @PostMapping("/addVisitUser")
+    public void addVisit(@RequestBody VisitRequest visitRequest, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        visitService.addUserVisit(visitRequest, user.getEmail());
+    }
 
 }

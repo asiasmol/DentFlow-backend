@@ -42,12 +42,10 @@ public class Patient {
     private String lastName;
 
     @Email
+    @Column(unique = true)
     private String email;
-    @NotBlank
     private String phoneNumber;
-    @NotBlank
     private String pesel;
-
     private LocalDate birthDate;
     @JsonIgnore
     @OneToMany

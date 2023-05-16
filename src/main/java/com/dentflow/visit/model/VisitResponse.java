@@ -17,6 +17,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisitResponse {
+    private String clinicName;
+    private Type type;
     private LocalDateTime visitDate;
     private DoctorResponse doctor;
     private int lengthOfTheVisit;
