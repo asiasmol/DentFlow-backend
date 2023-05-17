@@ -17,4 +17,5 @@ public class ClinicResponse {
     private String name;
     private String city;
     private String address;
+    private String phoneNumber;
 }

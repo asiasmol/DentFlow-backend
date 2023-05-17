@@ -109,7 +109,7 @@ public class VisitService {
         if(user.getMyPatientsAccounts().stream().anyMatch(p -> Objects.equals(p.getMyClinic().getId(), visitRequest.getClinicId()))){
             patient = user.getMyPatientsAccounts().stream().filter(p -> Objects.equals(p.getMyClinic().getId(), visitRequest.getClinicId())).findFirst().get();
         }else {
-            patient =Patient.builder().firstName(user.getFirstName()).teeth(new HashSet<>()).visits(new HashSet<>()).lastName(user.getLastName()).build();
+            patient =Patient.builder().firstName(user.getFirstName()).birthDate(user.getBirthDate()).pesel(user.getPesel()).teeth(new HashSet<>()).visits(new HashSet<>()).lastName(user.getLastName()).build();
             patientRepository.save(patient);
             for(int i = 1; i <= 32; i++){
                 patient.addTooth(toothRepository.save(Tooth.builder().number(i).forObservation(false).caries(false).secondaryCaries(false).filling(false).prostheticCrown(false).channelsFilledCorrectly(false).channelNotCompleted(false).periapicalChange(false).crownRootInsert(false).supragingivalCalculus(false).subgingivalCalculus(false).impactedTooth(false).noTooth(false).microdonticTooth(false).developmentalDefect(false).pathologicalClash(false)

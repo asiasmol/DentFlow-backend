@@ -26,6 +26,7 @@ public class Clinic {
     private String name;
     private String city;
     private String address;
+    private String phoneNumber;
 
     @NonNull
     @OneToOne(fetch = FetchType.LAZY)

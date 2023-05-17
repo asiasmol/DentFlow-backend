@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Set;
 
@@ -33,6 +35,8 @@ public class AuthenticationService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
+                .pesel(request.getPesel())
+                .birthDate(convertStringtoData(request.getBirthDate()))
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roles(Collections.singleton(Role.USER))
                 .build();
@@ -71,5 +75,9 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .roles(user.getRoles())
                 .build();
+    }
+    private static LocalDate convertStringtoData(String visitDate) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return LocalDate.parse(visitDate, dateFormatter);
     }
 }

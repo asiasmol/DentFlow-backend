@@ -96,7 +96,7 @@ public class ClinicService {
 
     public Set<ClinicResponse> getAllClinic() {
         return clinicRepository.findAll().stream().map(clinic -> ClinicResponse
-                .builder().id(clinic.getId()).city(clinic.getCity()).address(clinic.getAddress()).name(clinic.getName())
+                .builder().id(clinic.getId()).city(clinic.getCity()).phoneNumber(clinic.getPhoneNumber()).address(clinic.getAddress()).name(clinic.getName())
                 .build()).collect(Collectors.toSet());
     }
 
