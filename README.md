@@ -7,7 +7,7 @@ arranging patients for appointments and storing treatment history.
 DENTFLOW FRONTEND LINK - https://github.com/asiasmol/DentFlow-frontend/tree/main
 
 
-https://github.com/asiasmol/DentFlow-frontend/blob/main/DentFlow.gif
+![](https://github.com/asiasmol/DentFlow-frontend/blob/main/DentFlow.gif)
 
 
 
